@@ -1,8 +1,12 @@
 # Hagen
 
-CLI application for getting information out of [GitHub](https://github.com), mainly for running a sprint and generating a burn down and creating changelogs.
+[![Build Status](https://travis-ci.org/benmatselby/hagen.png?branch=master)](https://travis-ci.org/benmatselby/hagen)
+[![codecov](https://codecov.io/gh/benmatselby/hagen/branch/master/graph/badge.svg)](https://codecov.io/gh/benmatselby/hagen)
+[![Go Report Card](https://goreportcard.com/badge/github.com/benmatselby/hagen?style=flat-square)](https://goreportcard.com/report/github.com/benmatselby/hagen)
 
 ![Tom Hagen](/img/hagen.jpg)
+
+CLI application for getting information out of [GitHub](https://github.com), mainly for running a sprint and generating a burn down and creating changelogs.
 
 ```text
 CLI application for retrieving data from GitHub
