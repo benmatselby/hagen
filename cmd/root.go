@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/benmatselby/hagen/pkg"
 	"github.com/benmatselby/hagen/version"
@@ -37,7 +38,7 @@ func NewRootCommand() *cobra.Command {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	cmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.hagen.yaml)")
+	cmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.benmatselby/hagen.yaml)")
 
 	client := pkg.New()
 
@@ -60,9 +61,9 @@ func initConfig() {
 			os.Exit(1)
 		}
 
-		// Search config in home directory with name ".hagen" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigName(".hagen")
+		path := strings.Join([]string{home, ".benmatselby"}, "/")
+		viper.AddConfigPath(path)
+		viper.SetConfigName("hagen")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match

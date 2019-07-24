@@ -19,7 +19,7 @@ Available Commands:
   issues      List issues given the search criteria
 
 Flags:
-      --config string   config file (default is $HOME/.hagen.yaml)
+      --config string   config file (default is $HOME/.benmatselby/hagen.yaml)
   -h, --help            help for hagen
 
 Use "hagen [command] --help" for more information about a command.
@@ -34,7 +34,7 @@ This application uses Go modules, so you will require:
 
 ## Configuration
 
-There are two aspects to configurating `hagen`.
+There are two aspects to configuring `hagen`.
 
 ### Environment variables
 
