@@ -1,3 +1,6 @@
 hagen
 vendor/
 coverage.out
+
+# Sonar
+.scannerwork/

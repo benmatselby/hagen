@@ -1,7 +1,6 @@
 # Hagen
 
-[![Build Status](https://travis-ci.org/benmatselby/hagen.png?branch=master)](https://travis-ci.org/benmatselby/hagen)
-[![codecov](https://codecov.io/gh/benmatselby/hagen/branch/master/graph/badge.svg)](https://codecov.io/gh/benmatselby/hagen)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=hagen&metric=alert_status)](https://sonarcloud.io/dashboard?id=hagen)
 [![Go Report Card](https://goreportcard.com/badge/github.com/benmatselby/hagen?style=flat-square)](https://goreportcard.com/report/github.com/benmatselby/hagen)
 
 ![Tom Hagen](/img/hagen.jpg)
