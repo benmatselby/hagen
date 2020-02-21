@@ -26,9 +26,7 @@ Use "hagen [command] --help" for more information about a command.
 
 ## Requirements
 
-This application uses Go modules, so you will require:
-
-- [Go version 1.11+](https://golang.org/dl/)
+- [Go version 1.12+](https://golang.org/dl/)
 - You will need require a [PAT from GitHub](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line).
 
 ## Configuration

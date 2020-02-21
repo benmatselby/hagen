@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/benmatselby/hagen/cmd/repo"
 	"github.com/benmatselby/hagen/pkg"
 	"github.com/benmatselby/hagen/version"
 	homedir "github.com/mitchellh/go-homedir"
@@ -44,6 +45,7 @@ func NewRootCommand() *cobra.Command {
 
 	cmd.AddCommand(
 		NewIssuesCommand(&client),
+		repo.NewRepoCommand(&client),
 	)
 	return cmd
 }

@@ -47,3 +47,14 @@ func (client *Client) ListIssues(query string, opts github.SearchOptions) (*gith
 
 	return result, err
 }
+
+// ListRepos will return repos from GitHub for the given organisation in context
+// See https://help.github.com/en/github/searching-for-information-on-github/searching-for-repositories for more information.
+func (client *Client) ListRepos(query string, opts github.SearchOptions) (*github.RepositoriesSearchResult, error) {
+	result, _, err := client.GH.Search.Repositories(client.Context, query, &opts)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, err
+}
