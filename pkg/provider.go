@@ -14,4 +14,7 @@ type Issue struct {
 // Provider is the interface to the back end data source
 type Provider interface {
 	ListIssues(query string, opts github.SearchOptions) (*github.IssuesSearchResult, error)
+	ListRepos(query string, opts github.SearchOptions) (*github.RepositoriesSearchResult, error)
 }
+
+//go:generate mockgen -source=provider.go -package=pkg -destination=mock_github.go

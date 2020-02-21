@@ -26,6 +26,7 @@ clean: ## Clean the local dependencies
 .PHONY: install
 install: ## Install the local dependencies
 	go get ./...
+	go generate -x ./...
 
 .PHONY: vet
 vet: ## Vet the code

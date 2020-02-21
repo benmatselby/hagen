@@ -77,10 +77,5 @@ func DisplayIssues(result *github.IssuesSearchResult, w io.Writer) error {
 	for _, issue := range result.Issues {
 		fmt.Fprintf(w, "* #%v %s\n", issue.GetNumber(), issue.GetTitle())
 	}
-
-	if result.GetTotal() != len(result.Issues) {
-		fmt.Fprint(w, "\n[truncated]")
-	}
-
 	return nil
 }
