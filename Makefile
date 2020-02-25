@@ -25,6 +25,7 @@ clean: ## Clean the local dependencies
 
 .PHONY: install
 install: ## Install the local dependencies
+	go install github.com/golang/mock/mockgen
 	go get ./...
 	go generate -x ./...
 
