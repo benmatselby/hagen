@@ -1,4 +1,4 @@
-package cmd
+package issue
 
 import (
 	"fmt"
@@ -19,12 +19,12 @@ type IssuesOptions struct {
 	Template string
 }
 
-// NewIssuesCommand will register the `issues` command with the app
-func NewIssuesCommand(client hagen.Provider) *cobra.Command {
+// NewLsCommand will register the `ls` command to the `issue` command
+func NewLsCommand(client hagen.Provider) *cobra.Command {
 	var opts IssuesOptions
 
 	cmd := &cobra.Command{
-		Use:   "issues",
+		Use:   "ls",
 		Short: "List issues given the search criteria",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			opts.Args = args

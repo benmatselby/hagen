@@ -1,22 +1,22 @@
-package cmd_test
+package issue_test
 
 import (
 	"testing"
 
-	"github.com/benmatselby/hagen/cmd"
+	"github.com/benmatselby/hagen/cmd/issue"
 	"github.com/benmatselby/hagen/pkg"
 	"github.com/golang/mock/gomock"
 )
 
-func TestNewIssuesCommand(t *testing.T) {
+func TestNewLsCommand(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
 	client := pkg.NewMockProvider(ctrl)
 
-	cmd := cmd.NewIssuesCommand(client)
+	cmd := issue.NewLsCommand(client)
 
-	use := "issues"
+	use := "ls"
 	short := "List issues given the search criteria"
 
 	if cmd.Use != use {
