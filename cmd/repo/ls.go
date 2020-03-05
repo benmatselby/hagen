@@ -27,7 +27,7 @@ func NewRepoLsCommand(client hagen.Provider) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "ls",
-		Short: "List the repositories",
+		Short: "List the repositories based on a query. Default query is to list repos by ${GITHUB_OWNER}",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			opts.Args = args
 

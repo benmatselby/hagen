@@ -16,7 +16,7 @@ func TestNewRepoLsCommand(t *testing.T) {
 	cmd := repo.NewRepoLsCommand(client)
 
 	use := "ls"
-	short := "List the repositories"
+	short := "List the repositories based on a query. Default query is to list repos by ${GITHUB_OWNER}"
 
 	if cmd.Use != use {
 		t.Fatalf("expected use: %s; got %s", use, cmd.Use)
