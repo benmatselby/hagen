@@ -17,7 +17,7 @@ func TestNewLsCommand(t *testing.T) {
 	cmd := issue.NewLsCommand(client)
 
 	use := "ls"
-	short := "List issues given the search criteria"
+	short := "List issues given the search criteria. Default query is to list issues where the author is ${GITHUB_OWNER}"
 
 	if cmd.Use != use {
 		t.Fatalf("expected use: %s; got %s", use, cmd.Use)

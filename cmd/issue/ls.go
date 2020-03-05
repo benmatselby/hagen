@@ -25,7 +25,7 @@ func NewLsCommand(client hagen.Provider) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "ls",
-		Short: "List issues given the search criteria",
+		Short: "List issues given the search criteria. Default query is to list issues where the author is ${GITHUB_OWNER}",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			opts.Args = args
 			query, searchOpts := NewSearchFromIssueOptions(opts)
