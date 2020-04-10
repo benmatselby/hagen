@@ -13,11 +13,12 @@ import (
 
 // LsOptions defines what arguments/options the user can provide for the `repo ls` command
 type LsOptions struct {
-	Args     []string
-	Count    int
-	Query    string
-	Template string
-	Verbose  bool
+	Args      []string
+	Count     int
+	Query     string
+	Recursive bool
+	Template  string
+	Verbose   bool
 }
 
 // NewRepoLsCommand creates a new `repo ls` command that lists the repos for the
@@ -31,15 +32,29 @@ func NewRepoLsCommand(client hagen.Provider) *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			opts.Args = args
 
-			query, searchOpts := NewSearchFromRepoOptions(opts)
-			result, err := client.ListRepos(query, searchOpts)
-			if err != nil {
-				return err
-			}
+			more := true
+			query := ""
+			received := 0
+			for page := 1; more; page++ {
+				query, searchOpts := NewSearchFromRepoOptions(opts)
+				searchOpts.Page = page
+				result, err := client.ListRepos(query, searchOpts)
+				if err != nil {
+					return err
+				}
 
-			err = DisplayRepos(result, os.Stdout)
-			if err != nil {
-				return err
+				err = DisplayRepos(result, os.Stdout)
+				if err != nil {
+					return err
+				}
+
+				received += len(result.Repositories)
+				more = received < result.GetTotal()
+
+				if !opts.Recursive {
+					fmt.Printf("\nPress enter for more results\n")
+					fmt.Scanln()
+				}
 			}
 
 			if opts.Verbose {
@@ -53,6 +68,7 @@ func NewRepoLsCommand(client hagen.Provider) *cobra.Command {
 	flags := cmd.Flags()
 	flags.IntVar(&opts.Count, "count", -1, "How many repositories to display")
 	flags.StringVar(&opts.Query, "query", "", "The search query to get repositories")
+	flags.BoolVar(&opts.Recursive, "recursive", false, "Do you want to recursively get all results")
 	flags.StringVar(&opts.Template, "template", "", "Use a query defined in the configuration file")
 	flags.BoolVar(&opts.Verbose, "verbose", false, "Produce verbose output")
 
