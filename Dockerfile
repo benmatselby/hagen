@@ -19,6 +19,7 @@ RUN apk update && \
 	make
 
 RUN cd /go/src/github.com/benmatselby/${APPNAME} && \
+	go install github.com/golang/mock/mockgen && \
 	go get -u golang.org/x/lint/golint && \
 	make static-all  && \
 	mv ${APPNAME} /usr/bin/${APPNAME}  && \
