@@ -1,6 +1,6 @@
 # Hagen
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=hagen&metric=alert_status)](https://sonarcloud.io/dashboard?id=hagen)
+![Go](https://github.com/benmatselby/hagen/workflows/Go/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/benmatselby/hagen?style=flat-square)](https://goreportcard.com/report/github.com/benmatselby/hagen)
 
 ![Tom Hagen](/img/hagen.jpg)
