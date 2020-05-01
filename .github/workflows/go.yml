@@ -35,6 +35,7 @@ jobs:
 
       - name: Test
         run: |
+          PATH=$(go env GOPATH)/bin:$PATH
           make test
 
       - name: SonarCloud Scan

@@ -15,7 +15,9 @@ Usage:
 
 Available Commands:
   help        Help about any command
-  issues      List issues given the search criteria
+  issue       Issue related commands
+  project     Project related commands
+  repo        Repository related commands
 
 Flags:
       --config string   config file (default is $HOME/.benmatselby/hagen.yaml)

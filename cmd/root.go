@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/benmatselby/hagen/cmd/issue"
+	"github.com/benmatselby/hagen/cmd/project"
 	"github.com/benmatselby/hagen/cmd/repo"
 	"github.com/benmatselby/hagen/pkg"
 	"github.com/benmatselby/hagen/version"
@@ -47,6 +48,7 @@ func NewRootCommand() *cobra.Command {
 	cmd.AddCommand(
 		issue.NewIssueCommand(&client),
 		repo.NewRepoCommand(&client),
+		project.NewProjectCommand(&client),
 	)
 	return cmd
 }
