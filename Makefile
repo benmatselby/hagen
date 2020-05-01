@@ -24,10 +24,9 @@ clean: ## Clean the local dependencies
 	rm -fr vendor
 
 .PHONY: install
-install: ## Install the local dependencies
+install: mocks ## Install the local dependencies
 	go install github.com/golang/mock/mockgen
 	go get ./...
-	go generate -x ./...
 
 .PHONY: vet
 vet: ## Vet the code
@@ -45,8 +44,12 @@ build: ## Build the application
 static: ## Build the application
 	CGO_ENABLED=0 go build -ldflags "-extldflags -static -X github.com/benmatselby/$(NAME)/version.GITCOMMIT=$(GITCOMMIT)" -o $(NAME) .
 
+.PHONY: mocks
+mocks:
+	go generate -x ./...
+
 .PHONY: test
-test: ## Run the unit tests
+test: mocks ## Run the unit tests
 	go test ./... -coverprofile=coverage.out
 	go tool cover -func=coverage.out
 

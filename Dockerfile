@@ -33,4 +33,4 @@ COPY --from=builder /etc/ssl/certs/ /etc/ssl/certs
 ENV HOME /root
 
 ENTRYPOINT [ "hagen" ]
-CMD [ "--help"]
+CMD [ "--help" ]
