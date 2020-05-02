@@ -14,6 +14,7 @@ func NewProjectCommand(client hagen.Provider) *cobra.Command {
 
 	cmd.AddCommand(
 		NewLsCommand(client),
+		NewBurndownCommand(client),
 	)
 	return cmd
 }
