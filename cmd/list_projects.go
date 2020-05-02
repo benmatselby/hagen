@@ -1,4 +1,4 @@
-package project
+package cmd
 
 import (
 	"fmt"
@@ -11,21 +11,20 @@ import (
 	"github.com/spf13/viper"
 )
 
-// LsOptions defines what arguments/options the user can provide for the `project ls` command
-type LsOptions struct {
+// ListProjectsOptions defines what arguments/options the user can provide for the `project ls` command
+type ListProjectsOptions struct {
 	Args  []string
 	Org   string
 	Repo  string
 	State string
 }
 
-// NewLsCommand creates a new `project ls` command that lists the projects for the
-// organisation
-func NewLsCommand(client hagen.Provider) *cobra.Command {
-	var opts LsOptions
+// NewListProjectsCommand creates a new `projects` command
+func NewListProjectsCommand(client hagen.Provider) *cobra.Command {
+	var opts ListProjectsOptions
 
 	cmd := &cobra.Command{
-		Use:   "ls",
+		Use:   "projects",
 		Short: "List the projects. Default query is to list project for ${GITHUB_OWNER}",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return ListProjects(client, opts, os.Stdout)
@@ -41,7 +40,7 @@ func NewLsCommand(client hagen.Provider) *cobra.Command {
 }
 
 // ListProjects will display projects based on the given search criteria
-func ListProjects(client hagen.Provider, userOpts LsOptions, w io.Writer) error {
+func ListProjects(client hagen.Provider, userOpts ListProjectsOptions, w io.Writer) error {
 
 	states := map[string]bool{
 		"open":   true,

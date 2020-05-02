@@ -1,4 +1,4 @@
-package project
+package cmd
 
 import (
 	"fmt"
@@ -8,15 +8,16 @@ import (
 	"strconv"
 	"strings"
 	"text/tabwriter"
-	"github.com/spf13/cobra"
+
 	hagen "github.com/benmatselby/hagen/pkg"
+	"github.com/spf13/cobra"
 )
 
 // BurndownOptions defines what arguments/options the user can provide for the
 // `project burndown` command.
 type BurndownOptions struct {
 	Args    []string
-	Org string
+	Org     string
 	Project string
 	Repo    string
 }

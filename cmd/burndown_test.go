@@ -1,4 +1,4 @@
-package project_test
+package cmd_test
 
 import (
 	"bufio"
@@ -6,7 +6,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/benmatselby/hagen/cmd/project"
+	"github.com/benmatselby/hagen/cmd"
 	"github.com/benmatselby/hagen/pkg"
 	"github.com/golang/mock/gomock"
 	"github.com/google/go-github/github"
@@ -17,7 +17,7 @@ func TestNewBurndownCommand(t *testing.T) {
 	defer ctrl.Finish()
 	client := pkg.NewMockProvider(ctrl)
 
-	cmd := project.NewBurndownCommand(client)
+	cmd := cmd.NewBurndownCommand(client)
 
 	use := "burndown"
 	short := "Provide a burndown table for a project"
@@ -121,13 +121,13 @@ Total       3     39
 			var b bytes.Buffer
 			writer := bufio.NewWriter(&b)
 
-			args := project.BurndownOptions{
+			args := cmd.BurndownOptions{
 				Project: tc.projectName,
 				Org:     "org-nick-cave",
 				Repo:    "repo-into-my-arms",
 			}
 
-			err := project.DisplayBurndown(client, args, writer)
+			err := cmd.DisplayBurndown(client, args, writer)
 			writer.Flush()
 
 			if tc.projectErr != nil && err != nil {

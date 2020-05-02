@@ -1,9 +1,9 @@
-package repo_test
+package cmd_test
 
 import (
 	"testing"
 
-	"github.com/benmatselby/hagen/cmd/repo"
+	"github.com/benmatselby/hagen/cmd"
 	"github.com/benmatselby/hagen/pkg"
 	"github.com/golang/mock/gomock"
 )
@@ -13,9 +13,9 @@ func TestNewRepoLsCommand(t *testing.T) {
 	defer ctrl.Finish()
 
 	client := pkg.NewMockProvider(ctrl)
-	cmd := repo.NewRepoLsCommand(client)
+	cmd := cmd.NewListReposCommand(client)
 
-	use := "ls"
+	use := "repos"
 	short := "List the repositories based on a query. Default query is to list repos by ${GITHUB_OWNER}"
 
 	if cmd.Use != use {

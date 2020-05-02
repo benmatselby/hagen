@@ -1,25 +1,25 @@
-package project_test
+package cmd_test
 
 import (
 	"bufio"
 	"bytes"
 	"testing"
 
-	"github.com/benmatselby/hagen/cmd/project"
+	"github.com/benmatselby/hagen/cmd"
 	"github.com/benmatselby/hagen/pkg"
 	"github.com/golang/mock/gomock"
 	"github.com/google/go-github/github"
 	"github.com/spf13/viper"
 )
 
-func TestNewRepoLsCommand(t *testing.T) {
+func TestListProjectsCommand(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
 	client := pkg.NewMockProvider(ctrl)
-	cmd := project.NewLsCommand(client)
+	cmd := cmd.NewListProjectsCommand(client)
 
-	use := "ls"
+	use := "projects"
 	short := "List the projects. Default query is to list project for ${GITHUB_OWNER}"
 
 	if cmd.Use != use {
@@ -37,7 +37,7 @@ func TestListProjects(t *testing.T) {
 		expectedOutput string
 		expectedError  error
 		listOpts       github.ProjectListOptions
-		userArgs       project.LsOptions
+		userArgs       cmd.ListProjectsOptions
 	}{
 		{
 			name:           "projects for org",
@@ -46,7 +46,7 @@ func TestListProjects(t *testing.T) {
 			listOpts: github.ProjectListOptions{
 				State: "closed",
 			},
-			userArgs: project.LsOptions{
+			userArgs: cmd.ListProjectsOptions{
 				Org:   "buena-vista-social-club",
 				State: "closed",
 			},
@@ -58,7 +58,7 @@ func TestListProjects(t *testing.T) {
 			listOpts: github.ProjectListOptions{
 				State: "open",
 			},
-			userArgs: project.LsOptions{
+			userArgs: cmd.ListProjectsOptions{
 				Repo:  "hagen",
 				State: "open",
 			},
@@ -70,7 +70,7 @@ func TestListProjects(t *testing.T) {
 			listOpts: github.ProjectListOptions{
 				State: "open",
 			},
-			userArgs: project.LsOptions{
+			userArgs: cmd.ListProjectsOptions{
 				Repo:  "hagen",
 				State: "micky-bubbles",
 			},
@@ -82,7 +82,7 @@ func TestListProjects(t *testing.T) {
 			listOpts: github.ProjectListOptions{
 				State: "open",
 			},
-			userArgs: project.LsOptions{
+			userArgs: cmd.ListProjectsOptions{
 				State: "open",
 			},
 		},
@@ -123,7 +123,7 @@ func TestListProjects(t *testing.T) {
 			var b bytes.Buffer
 			writer := bufio.NewWriter(&b)
 
-			err := project.ListProjects(client, tc.userArgs, writer)
+			err := cmd.ListProjects(client, tc.userArgs, writer)
 			writer.Flush()
 
 			if b.String() != tc.expectedOutput {
