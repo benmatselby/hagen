@@ -52,6 +52,10 @@ func ListProjects(client hagen.Provider, userOpts ListProjectsOptions, w io.Writ
 		userOpts.State = "open"
 	}
 
+	if userOpts.Org == "" && userOpts.Repo == "" {
+		userOpts.Org = viper.GetString("GITHUB_ORG")
+	}
+
 	opts := github.ProjectListOptions{
 		State: userOpts.State,
 	}

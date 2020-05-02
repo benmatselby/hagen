@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 	"sync"
+
 	"github.com/google/go-github/github"
 	"github.com/spf13/viper"
 	"golang.org/x/oauth2"
@@ -158,7 +159,6 @@ func (c *Client) ListIssuesForProjectColumn(columnID int64) ([]*github.Issue, er
 
 	return issues, nil
 }
-
 
 // GetProjectByName will return a single project given a name
 func (c *Client) GetProjectByName(name, org, repo string) *github.Project {

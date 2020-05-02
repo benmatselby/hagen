@@ -11,6 +11,7 @@ import (
 
 	hagen "github.com/benmatselby/hagen/pkg"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // BurndownOptions defines what arguments/options the user can provide for the
@@ -49,6 +50,10 @@ func NewBurndownCommand(client hagen.Provider) *cobra.Command {
 func DisplayBurndown(client hagen.Provider, userOpts BurndownOptions, w io.Writer) error {
 	if userOpts.Project == "" {
 		return fmt.Errorf("a project needs to be specified --project")
+	}
+
+	if userOpts.Org == "" && userOpts.Repo == "" {
+		userOpts.Org = viper.GetString("GITHUB_ORG")
 	}
 
 	columns, err := client.ListColumnsForProject(userOpts.Project, userOpts.Org, userOpts.Repo)
