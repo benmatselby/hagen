@@ -94,7 +94,6 @@ func DisplayBurndown(client hagen.Provider, userOpts BurndownOptions, w io.Write
 	fmt.Fprintf(tw, "%s\t%d\t%d\n", "Total", totalCard, totalPoint)
 	fmt.Fprintf(tw, "%s\t%s\t%s\n", "-----", "-----", "------------")
 
-	tw.Flush()
-
-	return nil
+	err = tw.Flush()
+	return err
 }

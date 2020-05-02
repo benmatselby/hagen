@@ -22,7 +22,8 @@ jobs:
       - name: Get dependencies
         run: |
           PATH=$(go env GOPATH)/bin:$PATH
-          go get github.com/golang/mock/mockgen
+          go install github.com/golang/mock/mockgen
+          go install github.com/securego/gosec/cmd/gosec
           make install
 
       - name: Vet

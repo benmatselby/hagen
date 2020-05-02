@@ -1,9 +1,5 @@
 hagen
-vendor/
 coverage.out
-
-# Sonar
-.scannerwork/
 
 # Mock files
 pkg/mock_github.go

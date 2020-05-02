@@ -52,7 +52,7 @@ func NewListIssuesCommand(client hagen.Provider) *cobra.Command {
 
 				if !opts.Recursive {
 					fmt.Printf("\nPress enter for more results\n")
-					fmt.Scanln()
+					_, _ = fmt.Scanln()
 				}
 			}
 

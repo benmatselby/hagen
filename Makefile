@@ -26,6 +26,7 @@ clean: ## Clean the local dependencies
 .PHONY: install
 install: mocks ## Install the local dependencies
 	go install github.com/golang/mock/mockgen
+	go install github.com/securego/gosec/cmd/gosec
 	go get ./...
 
 .PHONY: vet
@@ -35,6 +36,10 @@ vet: ## Vet the code
 .PHONY: lint
 lint: ## Lint the code
 	golint -set_exit_status $(shell go list ./... | grep -v vendor)
+
+.PHONY: security
+security: ## Inspect the code
+	gosec ./...
 
 .PHONY: build
 build: ## Build the application
