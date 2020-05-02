@@ -1,4 +1,4 @@
-package repo
+package cmd
 
 import (
 	"fmt"
@@ -11,8 +11,9 @@ import (
 	"github.com/spf13/viper"
 )
 
-// LsOptions defines what arguments/options the user can provide for the `repo ls` command
-type LsOptions struct {
+// ListRepoOptions defines what arguments/options the user can provide for
+// the `repos` command.
+type ListRepoOptions struct {
 	Args      []string
 	Count     int
 	Query     string
@@ -21,13 +22,12 @@ type LsOptions struct {
 	Verbose   bool
 }
 
-// NewRepoLsCommand creates a new `repo ls` command that lists the repos for the
-// organisation
-func NewRepoLsCommand(client hagen.Provider) *cobra.Command {
-	var opts LsOptions
+// NewListReposCommand creates a new `repos` command that lists the repos.
+func NewListReposCommand(client hagen.Provider) *cobra.Command {
+	var opts ListRepoOptions
 
 	cmd := &cobra.Command{
-		Use:   "ls",
+		Use:   "repos",
 		Short: "List the repositories based on a query. Default query is to list repos by ${GITHUB_OWNER}",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			opts.Args = args
@@ -76,7 +76,7 @@ func NewRepoLsCommand(client hagen.Provider) *cobra.Command {
 }
 
 // NewSearchFromRepoOptions will return details that can perform a GitHub search
-func NewSearchFromRepoOptions(opts LsOptions) (string, github.SearchOptions) {
+func NewSearchFromRepoOptions(opts ListRepoOptions) (string, github.SearchOptions) {
 	query := ""
 	searchOpts := github.SearchOptions{}
 

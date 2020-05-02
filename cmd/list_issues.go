@@ -1,4 +1,4 @@
-package issue
+package cmd
 
 import (
 	"fmt"
@@ -11,20 +11,20 @@ import (
 	"github.com/spf13/viper"
 )
 
-// IssuesOptions defines what arguments/options the user can provide
-type IssuesOptions struct {
+// ListIssuesOptions defines what arguments/options the user can provide
+type ListIssuesOptions struct {
 	Args     []string
 	Count    int
 	Query    string
 	Template string
 }
 
-// NewLsCommand will register the `ls` command to the `issue` command
-func NewLsCommand(client hagen.Provider) *cobra.Command {
-	var opts IssuesOptions
+// NewListIssuesCommand will register the `issues` command
+func NewListIssuesCommand(client hagen.Provider) *cobra.Command {
+	var opts ListIssuesOptions
 
 	cmd := &cobra.Command{
-		Use:   "ls",
+		Use:   "issues",
 		Short: "List issues given the search criteria. Default query is to list issues where the author is ${GITHUB_OWNER}",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			opts.Args = args
@@ -48,7 +48,7 @@ func NewLsCommand(client hagen.Provider) *cobra.Command {
 }
 
 // NewSearchFromIssueOptions will return details that can perform a GitHub search
-func NewSearchFromIssueOptions(opts IssuesOptions) (string, github.SearchOptions) {
+func NewSearchFromIssueOptions(opts ListIssuesOptions) (string, github.SearchOptions) {
 	query := fmt.Sprintf("author:%s", viper.GetString("GITHUB_OWNER"))
 	query += fmt.Sprintf(" state:%s", "open")
 	searchOpts := github.SearchOptions{}

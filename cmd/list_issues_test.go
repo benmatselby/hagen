@@ -1,9 +1,9 @@
-package issue_test
+package cmd_test
 
 import (
 	"testing"
 
-	"github.com/benmatselby/hagen/cmd/issue"
+	"github.com/benmatselby/hagen/cmd"
 	"github.com/benmatselby/hagen/pkg"
 	"github.com/golang/mock/gomock"
 )
@@ -14,9 +14,9 @@ func TestNewLsCommand(t *testing.T) {
 
 	client := pkg.NewMockProvider(ctrl)
 
-	cmd := issue.NewLsCommand(client)
+	cmd := cmd.NewListIssuesCommand(client)
 
-	use := "ls"
+	use := "issues"
 	short := "List issues given the search criteria. Default query is to list issues where the author is ${GITHUB_OWNER}"
 
 	if cmd.Use != use {
