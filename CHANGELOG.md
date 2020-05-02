@@ -2,6 +2,8 @@
 
 ## next
 
+## 3.0.0
+
 - Bumped docker image to Go 1.14 runtime.
 - Bump the build environment to test on 1.12, 1.13, and 1.14.
 - Restructure the commands to limit the typing.
