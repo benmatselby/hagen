@@ -38,7 +38,7 @@ There are two aspects to configuring `hagen`.
 
 ### Environment variables
 
-In order to connect to GitHub `hagen` requires two environment variables.
+In order to connect to GitHub `hagen` requires three environment variables.
 
 ```bash
 export GITHUB_OWNER=""  # This is likely to be your personal GitHub username
