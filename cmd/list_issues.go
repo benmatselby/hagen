@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	hagen "github.com/benmatselby/hagen/pkg"
 	"github.com/google/go-github/github"
@@ -102,7 +103,15 @@ func NewSearchFromIssueOptions(opts ListIssuesOptions) (string, github.SearchOpt
 // DisplayIssues will display issues based on the given search criteria
 func DisplayIssues(result *github.IssuesSearchResult, w io.Writer) error {
 	for _, issue := range result.Issues {
-		fmt.Fprintf(w, "- #%v %s\n", issue.GetNumber(), issue.GetTitle())
+		// Ultimately this should be pulled from something specific in the API,
+		// but for now, just parse the API URL.
+		repo := ""
+		parts := strings.Split(issue.GetURL(), "/")
+		if len(parts) > 5 {
+			repo = fmt.Sprintf("%s/%s - ", parts[4], parts[5])
+		}
+
+		fmt.Fprintf(w, "- %s#%v %s\n", repo, issue.GetNumber(), issue.GetTitle())
 	}
 	return nil
 }
