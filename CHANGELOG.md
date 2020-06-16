@@ -2,6 +2,8 @@
 
 ## next
 
+- Do not ask "Press enter for more results" if there are no more results to show.
+
 ## 3.0.0
 
 - Bumped docker image to Go 1.14 runtime.
