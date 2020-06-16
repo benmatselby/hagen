@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	hagen "github.com/benmatselby/hagen/pkg"
+	"github.com/benmatselby/hagen/ui"
 	"github.com/google/go-github/github"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -51,8 +52,8 @@ func NewListIssuesCommand(client hagen.Provider) *cobra.Command {
 				received += len(result.Issues)
 				more = received < result.GetTotal()
 
-				if !opts.Recursive {
-					fmt.Printf("\nPress enter for more results\n")
+				if !opts.Recursive && more {
+					fmt.Printf(ui.MORE_RESULTS)
 					_, _ = fmt.Scanln()
 				}
 			}

@@ -6,6 +6,7 @@ import (
 	"os"
 
 	hagen "github.com/benmatselby/hagen/pkg"
+	"github.com/benmatselby/hagen/ui"
 	"github.com/google/go-github/github"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -52,7 +53,7 @@ func NewListReposCommand(client hagen.Provider) *cobra.Command {
 				more = received < result.GetTotal()
 
 				if !opts.Recursive {
-					fmt.Printf("\nPress enter for more results\n")
+					fmt.Printf(ui.MORE_RESULTS)
 					_, _ = fmt.Scanln()
 				}
 			}
