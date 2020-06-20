@@ -53,7 +53,7 @@ func NewListReposCommand(client hagen.Provider) *cobra.Command {
 				more = received < result.GetTotal()
 
 				if !opts.Recursive {
-					fmt.Printf(ui.MORE_RESULTS)
+					fmt.Printf(ui.MoreResults)
 					_, _ = fmt.Scanln()
 				}
 			}
