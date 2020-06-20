@@ -3,6 +3,7 @@
 ## next
 
 - Do not ask "Press enter for more results" if there are no more results to show.
+- Bump dependencies
 
 ## 3.0.0
 
