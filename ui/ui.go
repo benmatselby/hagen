@@ -1,3 +1,4 @@
 package ui
 
-const MORE_RESULTS = "\nPress enter for more results\n"
+// MoreResults provides a consistent message to get more results
+const MoreResults = "\nPress enter for more results\n"
