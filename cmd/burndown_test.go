@@ -54,7 +54,9 @@ Total       3     39
 	}
 
 	for _, tc := range tt {
+		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			ctrl := gomock.NewController(t)
 			defer ctrl.Finish()
 			client := pkg.NewMockProvider(ctrl)
