@@ -89,7 +89,9 @@ func TestListProjects(t *testing.T) {
 	}
 
 	for _, tc := range tt {
+		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			viper.Set("GITHUB_OWNER", "buena-vista-social-club")
 			ctrl := gomock.NewController(t)
 			defer ctrl.Finish()
