@@ -11,7 +11,7 @@ jobs:
       GOPATH: /home/runner/go
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v2.1.2
         with:
           go-version: ${{ matrix.go-version }}
         id: go
