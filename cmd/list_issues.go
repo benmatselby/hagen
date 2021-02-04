@@ -15,12 +15,13 @@ import (
 
 // ListIssuesOptions defines what arguments/options the user can provide
 type ListIssuesOptions struct {
-	Args      []string
-	Count     int
-	Query     string
-	Recursive bool
-	Template  string
-	Verbose   bool
+	Args          []string
+	Count         int
+	DisplayLabels bool
+	Query         string
+	Recursive     bool
+	Template      string
+	Verbose       bool
 }
 
 // NewListIssuesCommand will register the `issues` command
@@ -44,7 +45,7 @@ func NewListIssuesCommand(client hagen.Provider) *cobra.Command {
 					return err
 				}
 
-				err = DisplayIssues(result, os.Stdout)
+				err = DisplayIssues(result, opts, os.Stdout)
 				if err != nil {
 					return err
 				}
@@ -72,6 +73,7 @@ func NewListIssuesCommand(client hagen.Provider) *cobra.Command {
 	flags.BoolVar(&opts.Recursive, "recursive", false, "Do you want to recursively get all results")
 	flags.StringVar(&opts.Template, "template", "", "Use a query defined in the configuration file")
 	flags.BoolVar(&opts.Verbose, "verbose", false, "Produce verbose output")
+	flags.BoolVar(&opts.DisplayLabels, "labels", false, "Whether we show labels")
 
 	return cmd
 }
@@ -102,7 +104,7 @@ func NewSearchFromIssueOptions(opts ListIssuesOptions) (string, github.SearchOpt
 }
 
 // DisplayIssues will display issues based on the given search criteria
-func DisplayIssues(result *github.IssuesSearchResult, w io.Writer) error {
+func DisplayIssues(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error {
 	for _, issue := range result.Issues {
 		// Ultimately this should be pulled from something specific in the API,
 		// but for now, just parse the API URL.
@@ -112,7 +114,18 @@ func DisplayIssues(result *github.IssuesSearchResult, w io.Writer) error {
 			repo = fmt.Sprintf("%s/%s - ", parts[4], parts[5])
 		}
 
-		fmt.Fprintf(w, "- %s#%v %s\n", repo, issue.GetNumber(), issue.GetTitle())
+		labels := ""
+		if opts.DisplayLabels && len(issue.Labels) > 0 {
+			labels += " ("
+			for index, label := range issue.Labels {
+				labels += label.GetName()
+				if index < len(issue.Labels)-1 {
+					labels += ", "
+				}
+			}
+			labels += ")"
+		}
+		fmt.Fprintf(w, "- %s#%v %s%s\n", repo, issue.GetNumber(), issue.GetTitle(), labels)
 	}
 	return nil
 }
