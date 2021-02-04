@@ -24,13 +24,13 @@ clean: ## Clean the local dependencies
 	rm -fr vendor
 
 .PHONY: install
-install: mocks ## Install the local dependencies
-	go install github.com/golang/mock/mockgen
-	go install github.com/securego/gosec/cmd/gosec
+install: ## Install the local dependencies
+	go get github.com/golang/mock/mockgen
+	go get github.com/securego/gosec/cmd/gosec
 	go get ./...
 
 .PHONY: vet
-vet: ## Vet the code
+vet: mocks ## Vet the code
 	go vet -v ./...
 
 .PHONY: lint
