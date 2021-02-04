@@ -2,6 +2,9 @@
 
 ## next
 
+## 3.1.0
+
+- Addition of a `--labels` option for the issues command. [#32](https://github.com/benmatselby/hagen/pull/32)
 - Do not ask "Press enter for more results" if there are no more results to show.
 - Bump dependencies
 
