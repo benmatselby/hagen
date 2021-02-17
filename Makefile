@@ -25,8 +25,9 @@ clean: ## Clean the local dependencies
 
 .PHONY: install
 install: ## Install the local dependencies
-	go get github.com/golang/mock/mockgen
-	go get github.com/securego/gosec/cmd/gosec
+	go install github.com/golang/mock/mockgen@master
+	go install github.com/securego/gosec/cmd/gosec@master
+	go install golang.org/x/lint/golint@master
 	go get ./...
 
 .PHONY: vet
