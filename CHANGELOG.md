@@ -2,6 +2,9 @@
 
 ## next
 
+- Bumped docker image to Go 1.16 runtime.
+- Bump the build environment to test on 1.16.
+
 ## 3.1.0
 
 - Addition of a `--labels` option for the issues command. [#32](https://github.com/benmatselby/hagen/pull/32)
