@@ -66,9 +66,10 @@ To understand how to write the `query` section, follow [this article](https://he
 
 ## Installation via Docker
 
-Other than requiring [docker](http://docker.com) to be installed, there are no other requirements to run the application this way. This is the preferred method of running the `hagen`. The image is [here](https://hub.docker.com/r/benmatselby/hagen/).
+Other than requiring [docker](http://docker.com) to be installed, there are no other requirements to run the application this way.
 
 ```shell
+$ docker build -t benmatselby/hagen .
 $ docker run \
   --rm \
   -t \
