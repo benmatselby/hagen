@@ -69,7 +69,6 @@ To understand how to write the `query` section, follow [this article](https://he
 Other than requiring [docker](http://docker.com) to be installed, there are no other requirements to run the application this way.
 
 ```shell
-$ docker build -t benmatselby/hagen .
 $ docker run \
   --rm \
   -t \
@@ -77,16 +76,10 @@ $ docker run \
   -eGITHUB_OWNER \
   -eGITHUB_TOKEN \
   -v "${HOME}/.benmatselby":/root/.benmatselby \
-  benmatselby/hagen:latest "$@"
+  ghcr.io/benmatselby/hagen:latest [command]
 ```
 
 The `latest` tag mentioned above can be changed to a released version. For all releases, see [here](https://hub.docker.com/repository/docker/benmatselby/hagen/tags). An example would then be:
-
-```shell
-benmatselby/hagen:version-2.0.0
-```
-
-This would use the `verson-2.2.0` release in the docker command.
 
 ## Installation via Git
 
