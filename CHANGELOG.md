@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.4.0
+
+- Push Docker images to GitHub Package Registry.
+
 ## 3.3.0
 
 - Bumped docker image to Go 1.17 runtime.
