@@ -1,6 +1,8 @@
 # Changelog
 
-## next
+## 3.3.0
+
+- Bumped docker image to Go 1.17 runtime.
 
 ## 3.2.0
 
