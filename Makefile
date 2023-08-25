@@ -1,4 +1,7 @@
 NAME := hagen
+DOCKER_PREFIX = benmatselby
+DOCKER_RELEASE ?= latest
+DOCKER_PLATFORM ?= --platform=amd64
 
 .PHONY: explain
 explain:
@@ -68,3 +71,11 @@ all: clean install vet build test
 
 .PHONY: static-all ## Run everything
 static-all: clean install vet static test
+
+.PHONY: docker-build
+docker-build:
+	docker build -t $(DOCKER_PREFIX)/$(NAME):$(DOCKER_RELEASE) $(DOCKER_PLATFORM) .
+
+.PHONY: docker-push
+docker-push:
+	docker push $(DOCKER_PREFIX)/$(NAME):$(DOCKER_RELEASE)
