@@ -66,7 +66,7 @@ test-cov: test ## Run the unit tests with coverage
 all: clean install vet build test
 
 .PHONY: static-all ## Run everything
-static-all: clean install vet static test
+static-all: clean install static test
 
 .PHONY: docker-build
 docker-build:
