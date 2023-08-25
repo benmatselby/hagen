@@ -1,5 +1,2 @@
 hagen
 coverage.out
-
-# Mock files
-pkg/mock_github.go
