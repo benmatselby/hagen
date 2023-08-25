@@ -29,7 +29,7 @@ Use "hagen [command] --help" for more information about a command.
 
 ## Requirements
 
-- [Go version 1.16+](https://golang.org/dl/)
+- [Go version 1.21+](https://golang.org/dl/)
 - You will need require a [PAT from GitHub](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line).
 
 ## Configuration

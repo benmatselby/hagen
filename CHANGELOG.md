@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Bump Go version to 1.21
+
 ## 3.4.0
 
 - Push Docker images to GitHub Package Registry.
