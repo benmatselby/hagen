@@ -64,7 +64,12 @@ templates:
 
 To understand how to write the `query` section, follow [this article](https://help.github.com/en/articles/searching-issues-and-pull-requests).
 
-## Installation via Docker
+## Installation
+
+You can install this application a few ways:
+
+<details>
+<summary>Installation via Docker</summary>
 
 Other than requiring [docker](http://docker.com) to be installed, there are no other requirements to run the application this way.
 
@@ -76,18 +81,25 @@ $ docker run \
   -eGITHUB_OWNER \
   -eGITHUB_TOKEN \
   -v "${HOME}/.benmatselby":/root/.benmatselby \
-  ghcr.io/benmatselby/hagen:latest [command]
+  benmatselby/hagen:latest [command]
 ```
 
 The `latest` tag mentioned above can be changed to a released version. For all releases, see [here](https://hub.docker.com/repository/docker/benmatselby/hagen/tags). An example would then be:
 
-## Installation via Git
+</details>
 
+<details>
+<summary>Installation via Git</summary>
 ```bash
 git clone git@github.com:benmatselby/hagen.git
 cd hagen
 make all
 ./hagen
 ```
+</details>
 
+<details>
+<summary>Installation via Binaries</summary>
 You can also install into your `$GOPATH/bin` by `go install`
+
+</details>
