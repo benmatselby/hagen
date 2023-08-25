@@ -41,7 +41,6 @@ func NewListProjectsCommand(client hagen.Provider) *cobra.Command {
 
 // ListProjects will display projects based on the given search criteria
 func ListProjects(client hagen.Provider, userOpts ListProjectsOptions, w io.Writer) error {
-
 	states := map[string]bool{
 		"open":   true,
 		"closed": true,

@@ -39,7 +39,7 @@ vet: mocks ## Vet the code
 
 .PHONY: lint
 lint: ## Lint the code
-	golint -set_exit_status $(shell go list ./... | grep -v vendor)
+	golangci-lint run
 
 .PHONY: security
 security: ## Inspect the code
