@@ -33,10 +33,6 @@ install: ## Install the local dependencies
 	go install golang.org/x/lint/golint@master
 	go get ./...
 
-.PHONY: vet
-vet: mocks ## Vet the code
-	go vet -v ./...
-
 .PHONY: lint
 lint: ## Lint the code
 	golangci-lint run
