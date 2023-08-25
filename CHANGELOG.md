@@ -3,6 +3,7 @@
 ## next
 
 - Bump Go version to 1.21
+- Allow the caller of `make docker-build` to specify the Docker platform.
 
 ## 3.4.0
 
