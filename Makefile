@@ -2,6 +2,10 @@ NAME := hagen
 DOCKER_PREFIX = benmatselby
 DOCKER_RELEASE ?= latest
 DOCKER_PLATFORM ?= --platform=amd64
+BUILD_DIR ?= build
+GOOS ?=
+ARCH ?=
+OUT_PATH=$(BUILD_DIR)/$(NAME)-$(GOOS)-$(GOARCH)
 
 .PHONY: explain
 explain:
@@ -25,6 +29,7 @@ GITCOMMIT := $(shell git rev-parse --short HEAD)
 .PHONY: clean
 clean: ## Clean the local dependencies
 	rm -fr vendor
+	rm -fr $(BUILD_DIR) && mkdir -p $(BUILD_DIR)
 
 .PHONY: install
 install: ## Install the local dependencies
