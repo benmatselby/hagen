@@ -2,6 +2,10 @@
 
 ## next
 
+## 3.7.0
+
+- Add in the release version to the auto-generated binaries during a release.
+
 ## 3.6.0
 
 - Addition of binaries for each release, documented on the release page.
