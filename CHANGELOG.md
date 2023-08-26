@@ -2,6 +2,10 @@
 
 ## next
 
+## 3.6.0
+
+- Addition of binaries for each release, documented on the release page.
+
 ## 3.5.0
 
 - Bump Go version to 1.21

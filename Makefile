@@ -49,6 +49,16 @@ build: ## Build the application
 static: ## Build the application
 	CGO_ENABLED=0 go build -ldflags "-extldflags -static -X github.com/benmatselby/$(NAME)/version.GITCOMMIT=$(GITCOMMIT)" -o $(NAME) .
 
+.PHONY: static-named
+static-named: ## Build the application with named outputs
+	GOOS=$(GOOS) GOARCH=$(GOARCH) CGO_ENABLED=0 \
+		go build \
+		-ldflags "-extldflags -static -X github.com/benmatselby/$(NAME)/version.GITCOMMIT=$(GITCOMMIT)" \
+		-o $(OUT_PATH) .
+
+	md5sum $(OUT_PATH) > $(OUT_PATH).md5 || md5 $(OUT_PATH) > $(OUT_PATH).md5
+	sha256sum $(OUT_PATH) > $(OUT_PATH).sha256 || shasum $(OUT_PATH) > $(OUT_PATH).sha256
+
 .PHONY: mocks
 mocks:
 	go generate -x ./...
