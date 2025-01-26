@@ -2,6 +2,10 @@
 
 ## next
 
+## 3.8.0
+
+- Bump Go version to 1.22
+
 ## 3.7.0
 
 - Add in the release version to the auto-generated binaries during a release.
@@ -44,12 +48,12 @@
 - Provide a `burndown` command.
 - Provide a "--recursive" flag for `repo ls` so it will get all results for you. If not, it will ask you to "page" with the enter key.
 
-## 2.0.0
+## 2.0.0
 
 - Standardise on command naming.
 - Dockerised version configured and deployed.
 
-## 1.1.0
+## 1.1.0
 
 - New command to list repos based on a query `repo ls`.
 
