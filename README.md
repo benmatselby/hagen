@@ -21,7 +21,7 @@ Available Commands:
   repos       List the repositories based on a query. Default query is to list repos by ${GITHUB_OWNER}
 
 Flags:
-      --config string   config file (default is $HOME/.benmatselby/hagen.yaml)
+      --config string   config file (default is $HOME/.config/benmatselby/hagen.yaml)
   -h, --help            help for hagen
 
 Use "hagen [command] --help" for more information about a command.
@@ -80,7 +80,7 @@ $ docker run \
   -eGITHUB_ORG \
   -eGITHUB_OWNER \
   -eGITHUB_TOKEN \
-  -v "${HOME}/.benmatselby":/root/.benmatselby \
+  -v "${HOME}/.config/benmatselby":/root/.benmatselby \
   benmatselby/hagen:latest [command]
 ```
 
