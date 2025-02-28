@@ -2,6 +2,10 @@
 
 ## next
 
+## 3.9.0
+
+- Bump Go version to 1.24
+
 ## 3.8.0
 
 - Bump Go version to 1.22
