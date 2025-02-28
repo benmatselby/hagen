@@ -14,6 +14,9 @@ import (
 
 var cfgFile string
 
+// ApplicationName is the name of the cli binary
+const ApplicationName = "hagen"
+
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
@@ -30,7 +33,7 @@ func Execute() {
 // NewRootCommand will return the application
 func NewRootCommand() *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:     "hagen",
+		Use:     ApplicationName,
 		Short:   "CLI application for retrieving data from GitHub",
 		Version: version.GITCOMMIT,
 	}
@@ -38,7 +41,7 @@ func NewRootCommand() *cobra.Command {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	cmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.benmatselby/hagen.yaml)")
+	cmd.PersistentFlags().StringVar(&cfgFile, "config", "", fmt.Sprintf("config file (default is $HOME/.config/benmatselby/%s.yaml)", ApplicationName))
 
 	client := pkg.New()
 
@@ -64,7 +67,7 @@ func initConfig() {
 			os.Exit(1)
 		}
 
-		path := strings.Join([]string{home, ".benmatselby"}, "/")
+		path := strings.Join([]string{home, ".config/benmatselby"}, "/")
 		viper.AddConfigPath(path)
 		viper.SetConfigName("hagen")
 	}
