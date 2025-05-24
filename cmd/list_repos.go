@@ -94,7 +94,7 @@ func NewSearchFromRepoOptions(opts ListRepoOptions) (string, github.SearchOption
 	}
 
 	if opts.Count != -1 {
-		searchOpts.ListOptions.PerPage = opts.Count
+		searchOpts.PerPage = opts.Count
 	}
 
 	if query == "" {
