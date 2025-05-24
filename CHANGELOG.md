@@ -2,6 +2,14 @@
 
 ## next
 
+## 3.10.0
+
+- Add strategy pattern for displaying issues, with a new `--display` flag to choose between default and table output.
+- Add table output strategy using `tablewriter`, with columns for Type (Issue/Pull Request), Repository, Number, Title, Labels, Status, Created At, and Closed At.
+- Add `--human-dates` flag to display dates in a human-readable format (e.g., "Monday 02 January, 2006 at 15:04").
+- Add Status and Closed At columns to the table output.
+- Refactor and expand tests to cover all new display options and output formats.
+
 ## 3.9.0
 
 - Bump Go version to 1.24
