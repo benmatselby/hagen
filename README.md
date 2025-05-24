@@ -88,16 +88,19 @@ The `latest` tag mentioned above can be changed to a released version. For all r
 
 <details>
 <summary>Installation via Git</summary>
-```bash
+
+```shell
 git clone git@github.com:benmatselby/hagen.git
 cd hagen
 make all
 ./hagen
 ```
+
 </details>
 
 <details>
 <summary>Installation via Binaries</summary>
+
 You can also install into your `$GOPATH/bin` by `go install`
 
 </details>
