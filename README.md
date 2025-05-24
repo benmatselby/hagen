@@ -5,7 +5,7 @@
 
 ![Tom Hagen](/img/hagen.jpg)
 
-CLI application for getting information out of [GitHub](https://github.com), mainly for running a sprint and generating a burn down and creating changelogs.
+CLI application for getting information out of [GitHub](https://github.com).
 
 ```text
 CLI application for retrieving data from GitHub
@@ -14,10 +14,8 @@ Usage:
   hagen [command]
 
 Available Commands:
-  burndown    Provide a burndown table for a project
   help        Help about any command
   issues      List issues given the search criteria. Default query is to list issues where the author is ${GITHUB_OWNER}
-  projects    List the projects. Default query is to list project for ${GITHUB_OWNER}
   repos       List the repositories based on a query. Default query is to list repos by ${GITHUB_OWNER}
 
 Flags:

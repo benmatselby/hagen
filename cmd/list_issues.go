@@ -8,7 +8,7 @@ import (
 
 	hagen "github.com/benmatselby/hagen/pkg"
 	"github.com/benmatselby/hagen/ui"
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v72/github"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

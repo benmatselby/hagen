@@ -46,9 +46,7 @@ func NewRootCommand() *cobra.Command {
 	client := pkg.New()
 
 	cmd.AddCommand(
-		NewBurndownCommand(&client),
 		NewListIssuesCommand(&client),
-		NewListProjectsCommand(&client),
 		NewListReposCommand(&client),
 	)
 	return cmd
