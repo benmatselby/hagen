@@ -156,7 +156,7 @@ type TableIssueDisplayStrategy struct{}
 
 func (s TableIssueDisplayStrategy) Display(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error {
 	table := tablewriter.NewWriter(w)
-	table.Header([]string{"Type", "Repository", "Number", "Title", "Labels", "Created At"})
+	table.Header([]string{"Type", "Repository", "Number", "Title", "Labels", "Status", "Created At", "Closed At"})
 
 	for _, issue := range result.Issues {
 		repo := ""
@@ -177,6 +177,10 @@ func (s TableIssueDisplayStrategy) Display(result *github.IssuesSearchResult, op
 		if issue.IsPullRequest() {
 			typeStr = "Pull Request"
 		}
+		status := ""
+		if issue.State != nil {
+			status = *issue.State
+		}
 		createdAt := ""
 		if issue.CreatedAt != nil {
 			if opts.HumanDates {
@@ -185,7 +189,15 @@ func (s TableIssueDisplayStrategy) Display(result *github.IssuesSearchResult, op
 				createdAt = issue.CreatedAt.Format("2006-01-02 15:04:05")
 			}
 		}
-		row := []string{typeStr, repo, fmt.Sprintf("%v", issue.GetNumber()), issue.GetTitle(), labels, createdAt}
+		closedAt := ""
+		if issue.ClosedAt != nil {
+			if opts.HumanDates {
+				closedAt = issue.ClosedAt.Format("Monday 02 January, 2006 at 15:04")
+			} else {
+				closedAt = issue.ClosedAt.Format("2006-01-02 15:04:05")
+			}
+		}
+		row := []string{typeStr, repo, fmt.Sprintf("%v", issue.GetNumber()), issue.GetTitle(), labels, status, createdAt, closedAt}
 		err := table.Append(row)
 		if err != nil {
 			return err
