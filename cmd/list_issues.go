@@ -24,6 +24,7 @@ type ListIssuesOptions struct {
 	Template        string
 	Verbose         bool
 	DisplayStrategy string // new flag for strategy
+	HumanDates      bool   // new flag for human-readable dates
 }
 
 // NewListIssuesCommand will register the `issues` command
@@ -86,6 +87,7 @@ func NewListIssuesCommand(client hagen.Provider) *cobra.Command {
 	flags.BoolVar(&opts.Verbose, "verbose", false, "Produce verbose output")
 	flags.BoolVar(&opts.DisplayLabels, "labels", false, "Whether we show labels")
 	flags.StringVar(&opts.DisplayStrategy, "display", "default", "Display strategy: default or table")
+	flags.BoolVar(&opts.HumanDates, "human-dates", false, "Display dates in a human-readable format")
 
 	return cmd
 }
@@ -177,7 +179,11 @@ func (s TableIssueDisplayStrategy) Display(result *github.IssuesSearchResult, op
 		}
 		createdAt := ""
 		if issue.CreatedAt != nil {
-			createdAt = issue.CreatedAt.Format("2006-01-02 15:04:05")
+			if opts.HumanDates {
+				createdAt = issue.CreatedAt.Format("Monday 02 January, 2006 at 15:04")
+			} else {
+				createdAt = issue.CreatedAt.Format("2006-01-02 15:04:05")
+			}
 		}
 		row := []string{typeStr, repo, fmt.Sprintf("%v", issue.GetNumber()), issue.GetTitle(), labels, createdAt}
 		err := table.Append(row)
