@@ -1,6 +1,7 @@
 package cmd_test
 
 import (
+	"bufio"
 	"bytes"
 	"strings"
 	"testing"
@@ -67,6 +68,7 @@ func TestDefaultIssueDisplayStrategy(t *testing.T) {
 
 func TestTableIssueDisplayStrategy(t *testing.T) {
 	created := github.Timestamp{Time: time.Date(2024, 5, 24, 10, 30, 0, 0, time.UTC)}
+	closed := github.Timestamp{Time: time.Date(2024, 5, 25, 11, 0, 0, 0, time.UTC)}
 	issues := []*github.Issue{
 		{
 			URL:       github.Ptr("https://api.github.com/repos/foo/bar/issues/1"),
@@ -74,6 +76,8 @@ func TestTableIssueDisplayStrategy(t *testing.T) {
 			Title:     github.Ptr("Test Issue 1"),
 			Labels:    []*github.Label{{Name: github.Ptr("bug")}},
 			CreatedAt: &created,
+			State:     github.Ptr("open"),
+			ClosedAt:  &closed,
 		},
 		{
 			URL:              github.Ptr("https://api.github.com/repos/foo/bar/issues/2"),
@@ -81,30 +85,37 @@ func TestTableIssueDisplayStrategy(t *testing.T) {
 			Title:            github.Ptr("Test PR 2"),
 			Labels:           []*github.Label{},
 			CreatedAt:        &created,
+			State:            github.Ptr("closed"),
+			ClosedAt:         &closed,
 			PullRequestLinks: &github.PullRequestLinks{}, // Mark as PR
 		},
 	}
 	result := &github.IssuesSearchResult{Issues: issues}
 	opts := cmd.ListIssuesOptions{DisplayLabels: true}
-	var buf bytes.Buffer
+	var b bytes.Buffer
+	writer := bufio.NewWriter(&b)
 	strategy := cmd.TableIssueDisplayStrategy{}
-	err := strategy.Display(result, opts, &buf)
+	err := strategy.Display(result, opts, writer)
+	writer.Flush()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	output := buf.String()
-	if !strings.Contains(strings.ToLower(output), "repository") ||
-		!strings.Contains(output, "Test Issue 1") ||
-		!strings.Contains(output, "bug") ||
-		!strings.Contains(output, "Issue") ||
-		!strings.Contains(output, "Pull Request") ||
-		!strings.Contains(output, "2024-05-24 10:30:00") {
-		t.Errorf("expected table output to contain headers, type, created at, issue title, and label, got: %s", output)
+	expected := `┌──────────────┬────────────┬────────┬──────────────┬────────┬────────┬─────────────────────┬─────────────────────┐
+│     TYPE     │ REPOSITORY │ NUMBER │    TITLE     │ LABELS │ STATUS │     CREATED AT      │      CLOSED AT      │
+├──────────────┼────────────┼────────┼──────────────┼────────┼────────┼─────────────────────┼─────────────────────┤
+│ Issue        │ foo/bar    │ 1      │ Test Issue 1 │ bug    │ open   │ 2024-05-24 10:30:00 │ 2024-05-25 11:00:00 │
+│ Pull Request │ foo/bar    │ 2      │ Test PR 2    │        │ closed │ 2024-05-24 10:30:00 │ 2024-05-25 11:00:00 │
+└──────────────┴────────────┴────────┴──────────────┴────────┴────────┴─────────────────────┴─────────────────────┘
+`
+	actual := b.String()
+	if actual != expected {
+		t.Fatalf("expected\n'%s'\ngot\n'%s'\n", expected, actual)
 	}
 }
 
 func TestTableIssueDisplayStrategy_HumanDates(t *testing.T) {
 	created := github.Timestamp{Time: time.Date(2025, 3, 9, 12, 33, 0, 0, time.UTC)}
+	closed := github.Timestamp{Time: time.Date(2025, 3, 10, 14, 0, 0, 0, time.UTC)}
 	issues := []*github.Issue{
 		{
 			URL:       github.Ptr("https://api.github.com/repos/foo/bar/issues/1"),
@@ -112,6 +123,8 @@ func TestTableIssueDisplayStrategy_HumanDates(t *testing.T) {
 			Title:     github.Ptr("Test Issue 1"),
 			Labels:    []*github.Label{{Name: github.Ptr("bug")}},
 			CreatedAt: &created,
+			State:     github.Ptr("open"),
+			ClosedAt:  &closed,
 		},
 		{
 			URL:              github.Ptr("https://api.github.com/repos/foo/bar/issues/2"),
@@ -119,19 +132,30 @@ func TestTableIssueDisplayStrategy_HumanDates(t *testing.T) {
 			Title:            github.Ptr("Test PR 2"),
 			Labels:           []*github.Label{},
 			CreatedAt:        &created,
+			State:            github.Ptr("closed"),
+			ClosedAt:         &closed,
 			PullRequestLinks: &github.PullRequestLinks{}, // Mark as PR
 		},
 	}
 	result := &github.IssuesSearchResult{Issues: issues}
 	opts := cmd.ListIssuesOptions{DisplayLabels: true, HumanDates: true}
-	var buf bytes.Buffer
+	var b bytes.Buffer
+	writer := bufio.NewWriter(&b)
 	strategy := cmd.TableIssueDisplayStrategy{}
-	err := strategy.Display(result, opts, &buf)
+	err := strategy.Display(result, opts, writer)
+	writer.Flush()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	output := buf.String()
-	if !strings.Contains(output, "Sunday 09 March, 2025 at 12:33") {
-		t.Errorf("expected human-readable date in output, got: %s", output)
+	expected := `┌──────────────┬────────────┬────────┬──────────────┬────────┬────────┬────────────────────────────────┬────────────────────────────────┐
+│     TYPE     │ REPOSITORY │ NUMBER │    TITLE     │ LABELS │ STATUS │           CREATED AT           │           CLOSED AT            │
+├──────────────┼────────────┼────────┼──────────────┼────────┼────────┼────────────────────────────────┼────────────────────────────────┤
+│ Issue        │ foo/bar    │ 1      │ Test Issue 1 │ bug    │ open   │ Sunday 09 March, 2025 at 12:33 │ Monday 10 March, 2025 at 14:00 │
+│ Pull Request │ foo/bar    │ 2      │ Test PR 2    │        │ closed │ Sunday 09 March, 2025 at 12:33 │ Monday 10 March, 2025 at 14:00 │
+└──────────────┴────────────┴────────┴──────────────┴────────┴────────┴────────────────────────────────┴────────────────────────────────┘
+`
+	actual := b.String()
+	if actual != expected {
+		t.Fatalf("expected\n'%s'\ngot\n'%s'\n", expected, actual)
 	}
 }
