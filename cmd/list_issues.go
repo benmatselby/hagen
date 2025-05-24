@@ -9,19 +9,21 @@ import (
 	hagen "github.com/benmatselby/hagen/pkg"
 	"github.com/benmatselby/hagen/ui"
 	"github.com/google/go-github/v72/github"
+	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 // ListIssuesOptions defines what arguments/options the user can provide
 type ListIssuesOptions struct {
-	Args          []string
-	Count         int
-	DisplayLabels bool
-	Query         string
-	Recursive     bool
-	Template      string
-	Verbose       bool
+	Args            []string
+	Count           int
+	DisplayLabels   bool
+	Query           string
+	Recursive       bool
+	Template        string
+	Verbose         bool
+	DisplayStrategy string // new flag for strategy
 }
 
 // NewListIssuesCommand will register the `issues` command
@@ -45,7 +47,16 @@ func NewListIssuesCommand(client hagen.Provider) *cobra.Command {
 					return err
 				}
 
-				err = DisplayIssues(result, opts, os.Stdout)
+				// Select strategy
+				var strategy IssueDisplayStrategy
+				switch opts.DisplayStrategy {
+				case "table":
+					strategy = TableIssueDisplayStrategy{}
+				default:
+					strategy = DefaultIssueDisplayStrategy{}
+				}
+
+				err = strategy.Display(result, opts, os.Stdout)
 				if err != nil {
 					return err
 				}
@@ -74,6 +85,7 @@ func NewListIssuesCommand(client hagen.Provider) *cobra.Command {
 	flags.StringVar(&opts.Template, "template", "", "Use a query defined in the configuration file")
 	flags.BoolVar(&opts.Verbose, "verbose", false, "Produce verbose output")
 	flags.BoolVar(&opts.DisplayLabels, "labels", false, "Whether we show labels")
+	flags.StringVar(&opts.DisplayStrategy, "display", "default", "Display strategy: default or table")
 
 	return cmd
 }
@@ -90,7 +102,7 @@ func NewSearchFromIssueOptions(opts ListIssuesOptions) (string, github.SearchOpt
 		searchOpts = github.SearchOptions{
 			ListOptions: github.ListOptions{PerPage: count},
 		}
-	} else if opts.Query != "" {
+	} else {
 		if opts.Query != "" {
 			query = opts.Query
 		}
@@ -103,11 +115,18 @@ func NewSearchFromIssueOptions(opts ListIssuesOptions) (string, github.SearchOpt
 	return query, searchOpts
 }
 
-// DisplayIssues will display issues based on the given search criteria
-func DisplayIssues(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error {
+// IssueDisplayStrategy defines the interface for displaying issues
+// You can add more strategies by implementing this interface
+type IssueDisplayStrategy interface {
+	Display(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error
+}
+
+// DefaultIssueDisplayStrategy implements the default display logic
+// (current behaviour)
+type DefaultIssueDisplayStrategy struct{}
+
+func (s DefaultIssueDisplayStrategy) Display(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error {
 	for _, issue := range result.Issues {
-		// Ultimately this should be pulled from something specific in the API,
-		// but for now, just parse the API URL.
 		repo := ""
 		parts := strings.Split(issue.GetURL(), "/")
 		if len(parts) > 5 {
@@ -128,4 +147,49 @@ func DisplayIssues(result *github.IssuesSearchResult, opts ListIssuesOptions, w 
 		fmt.Fprintf(w, "- %s#%v %s%s\n", repo, issue.GetNumber(), issue.GetTitle(), labels)
 	}
 	return nil
+}
+
+// TableIssueDisplayStrategy implements table display logic
+type TableIssueDisplayStrategy struct{}
+
+func (s TableIssueDisplayStrategy) Display(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error {
+	table := tablewriter.NewWriter(w)
+	table.Header([]string{"Type", "Repository", "Number", "Title", "Labels", "Created At"})
+
+	for _, issue := range result.Issues {
+		repo := ""
+		parts := strings.Split(issue.GetURL(), "/")
+		if len(parts) > 5 {
+			repo = fmt.Sprintf("%s/%s", parts[4], parts[5])
+		}
+		labels := ""
+		if opts.DisplayLabels && len(issue.Labels) > 0 {
+			for index, label := range issue.Labels {
+				labels += label.GetName()
+				if index < len(issue.Labels)-1 {
+					labels += ", "
+				}
+			}
+		}
+		typeStr := "Issue"
+		if issue.IsPullRequest() {
+			typeStr = "Pull Request"
+		}
+		createdAt := ""
+		if issue.CreatedAt != nil {
+			createdAt = issue.CreatedAt.Format("2006-01-02 15:04:05")
+		}
+		row := []string{typeStr, repo, fmt.Sprintf("%v", issue.GetNumber()), issue.GetTitle(), labels, createdAt}
+		err := table.Append(row)
+		if err != nil {
+			return err
+		}
+	}
+	return table.Render()
+}
+
+// DisplayIssues is deprecated. Use IssueDisplayStrategy instead.
+// This is kept for backward compatibility and for tests.
+func DisplayIssues(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error {
+	return DefaultIssueDisplayStrategy{}.Display(result, opts, w)
 }
