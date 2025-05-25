@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.11.0
+
+- Add Copilot instructions for the project
+- Updated dependencies
+- Provide more examples for the `issues list` command
+
 ## next
 
 ## 3.10.0
