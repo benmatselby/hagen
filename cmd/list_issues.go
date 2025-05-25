@@ -34,6 +34,29 @@ func NewListIssuesCommand(client hagen.Provider) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "issues",
 		Short: "List issues given the search criteria. Default query is to list issues where the author is ${GITHUB_OWNER}",
+		Long: `This command will return issues and pull requests given the search criteria.
+`,
+		Example: `
+Get all issues/pull requests raised by a user:
+
+$ hagen issues list --query "author:yourusername"
+
+Get all pull requests reviewed by a user:
+
+$ hagen issues list --query "reviewed-by:yourusername"
+
+Get all issues/pull requests that a user is involved with:
+
+$ hagen issues list --query "involves:yourusername"
+
+Display the results in a table format:
+
+$ hagen issues list --query "author:yourusername" --display table
+
+Display the results in a human-readable format:
+
+$ hagen issues list --query "author:yourusername" --display table --human-dates
+`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			opts.Args = args
 
