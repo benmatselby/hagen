@@ -23,7 +23,7 @@
 
 ## Testing
 
-- Use `go test ./...` to run all tests.
+- Use `make test-cov` to run all tests.
 - Add tests for new strategies, flags, and output formats.
 - Use table-driven tests where appropriate.
 - Where applicable use an io.Writer that captures the output and then compare it against expected output. (see `cmd/list_issues_test.go` for examples).
