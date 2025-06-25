@@ -2,6 +2,8 @@
 
 ## next
 
+- Add `templates` command to list all templates from the config file, with `-v` to show queries
+
 ## 3.12.0
 
 - Display the timezone in issues list
