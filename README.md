@@ -17,6 +17,7 @@ Available Commands:
   help        Help about any command
   issues      List issues given the search criteria. Default query is to list issues where the author is ${GITHUB_OWNER}
   repos       List the repositories based on a query. Default query is to list repos by ${GITHUB_OWNER}
+  templates   List all templates from the config file
 
 Flags:
       --config string   config file (default is $HOME/.config/benmatselby/hagen.yaml)

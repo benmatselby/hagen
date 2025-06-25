@@ -48,6 +48,7 @@ func NewRootCommand() *cobra.Command {
 	cmd.AddCommand(
 		NewListIssuesCommand(&client),
 		NewListReposCommand(&client),
+		NewListTemplatesCommand(),
 	)
 	return cmd
 }

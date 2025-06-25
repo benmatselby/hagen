@@ -13,6 +13,7 @@
 - Use dependency injection for clients (see how `hagen.Provider` is used).
 - Prefer clear, user-friendly CLI flags and help text.
 - Use semantic commit messages.
+- Ensure all code passes linting (`make lint`).
 
 ## Features & Conventions
 
