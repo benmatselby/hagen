@@ -1,8 +1,10 @@
 # Changelog
 
-## next
+## 3.13.0
 
 - Add `templates` command to list all templates from the config file, with `-v` to show queries
+- Bump golang base image to 1.24.4-alpine
+- Bump github.com/olekukonko/tablewriter to 1.0.7
 
 ## 3.12.0
 
