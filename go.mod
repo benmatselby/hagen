@@ -6,7 +6,7 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/google/go-github/v72 v72.0.0
 	github.com/mitchellh/go-homedir v1.1.0
-	github.com/olekukonko/tablewriter v1.0.9
+	github.com/olekukonko/tablewriter v1.1.0
 	github.com/spf13/cobra v1.10.1
 	github.com/spf13/viper v1.21.0
 	golang.org/x/oauth2 v0.31.0
