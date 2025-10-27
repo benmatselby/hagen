@@ -3,6 +3,7 @@
 ## Release-next
 
 - Bump golang base image to 1.25.0-alpine
+- Provide a "Mean time to merge" display strategy for `issues` command.
 
 ## 3.13.0
 
