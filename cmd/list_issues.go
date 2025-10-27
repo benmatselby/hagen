@@ -116,7 +116,7 @@ $ hagen issues list --query "author:yourusername is:pr is:merged" --display mttm
 	flags.StringVar(&opts.Template, "template", "", "Use a query defined in the configuration file")
 	flags.BoolVar(&opts.Verbose, "verbose", false, "Produce verbose output")
 	flags.BoolVar(&opts.DisplayLabels, "labels", false, "Whether we show labels")
-	flags.StringVar(&opts.DisplayStrategy, "display", "default", "Display strategy: default or table")
+	flags.StringVar(&opts.DisplayStrategy, "display", "default", "Display strategy: default, table, or mttm")
 	flags.BoolVar(&opts.HumanDates, "human-dates", false, "Display dates in a human-readable format")
 
 	return cmd
