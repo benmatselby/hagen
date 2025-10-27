@@ -1,5 +1,9 @@
 # Changelog
 
+## Release-next
+
+- Bump golang base image to 1.25.0-alpine
+
 ## 3.13.0
 
 - Add `templates` command to list all templates from the config file, with `-v` to show queries
