@@ -228,9 +228,3 @@ func (s TableIssueDisplayStrategy) Display(result *github.IssuesSearchResult, op
 	}
 	return table.Render()
 }
-
-// DisplayIssues is deprecated. Use IssueDisplayStrategy instead.
-// This is kept for backward compatibility and for tests.
-func DisplayIssues(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error {
-	return DefaultIssueDisplayStrategy{}.Display(result, opts, w)
-}
