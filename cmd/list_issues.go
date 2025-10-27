@@ -207,17 +207,17 @@ func (s TableIssueDisplayStrategy) Display(result *github.IssuesSearchResult, op
 		createdAt := ""
 		if issue.CreatedAt != nil {
 			if opts.HumanDates {
-				createdAt = issue.CreatedAt.Format("Monday 02 January, 2006 at 15:04 MST")
+				createdAt = issue.CreatedAt.Format(ui.HumanFriendlyDateFormat)
 			} else {
-				createdAt = issue.CreatedAt.Format("2006-01-02 15:04:05 -07:00")
+				createdAt = issue.CreatedAt.Format(ui.DateFormat)
 			}
 		}
 		closedAt := ""
 		if issue.ClosedAt != nil {
 			if opts.HumanDates {
-				closedAt = issue.ClosedAt.Format("Monday 02 January, 2006 at 15:04 MST")
+				closedAt = issue.ClosedAt.Format(ui.HumanFriendlyDateFormat)
 			} else {
-				closedAt = issue.ClosedAt.Format("2006-01-02 15:04:05 -07:00")
+				closedAt = issue.ClosedAt.Format(ui.DateFormat)
 			}
 		}
 		row := []string{typeStr, repo, fmt.Sprintf("%v", issue.GetNumber()), issue.GetTitle(), labels, status, createdAt, closedAt}

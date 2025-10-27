@@ -1,3 +1,4 @@
+// Package cmd is the package for all commands of the application
 package cmd
 
 import (
@@ -32,7 +33,7 @@ func Execute() {
 
 // NewRootCommand will return the application
 func NewRootCommand() *cobra.Command {
-	var cmd = &cobra.Command{
+	cmd := &cobra.Command{
 		Use:     ApplicationName,
 		Short:   "CLI application for retrieving data from GitHub",
 		Version: version.GITCOMMIT,
