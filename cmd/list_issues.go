@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"strings"
+	"time"
 
 	hagen "github.com/benmatselby/hagen/pkg"
 	"github.com/benmatselby/hagen/ui"
@@ -56,6 +57,10 @@ $ hagen issues list --query "author:yourusername" --display table
 Display the results in a human-readable format:
 
 $ hagen issues list --query "author:yourusername" --display table --human-dates
+
+Display the mean time to merge for pull requests:
+
+$ hagen issues list --query "author:yourusername is:pr is:merged" --display mttm
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			opts.Args = args
@@ -76,6 +81,8 @@ $ hagen issues list --query "author:yourusername" --display table --human-dates
 				switch opts.DisplayStrategy {
 				case "table":
 					strategy = TableIssueDisplayStrategy{}
+				case "mttm":
+					strategy = MttmDisplayStrategy{}
 				default:
 					strategy = DefaultIssueDisplayStrategy{}
 				}
@@ -227,4 +234,41 @@ func (s TableIssueDisplayStrategy) Display(result *github.IssuesSearchResult, op
 		}
 	}
 	return table.Render()
+}
+
+// MttmDisplayStrategy implements mean time to merge display logic
+type MttmDisplayStrategy struct{}
+
+func (s MttmDisplayStrategy) Display(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error {
+	table := tablewriter.NewWriter(w)
+	table.Header([]string{"Repository", "Number", "Title", "Mean time to Merge"})
+
+	totalDuration := time.Duration(0)
+	for _, issue := range result.Issues {
+		repo := ""
+
+		parts := strings.Split(issue.GetURL(), "/")
+		if len(parts) > 5 {
+			repo = fmt.Sprintf("%s/%s", parts[4], parts[5])
+		}
+
+		timeBetween := issue.GetClosedAt().Sub(issue.GetCreatedAt().Time)
+		totalDuration += timeBetween
+		duration := ui.HumanDuration(timeBetween)
+		row := []string{repo, fmt.Sprintf("%v", issue.GetNumber()), issue.GetTitle(), duration}
+		err := table.Append(row)
+		if err != nil {
+			return err
+		}
+	}
+
+	if opts.Verbose {
+		_ = table.Render()
+
+		fmt.Fprintf(w, "Mean time to merge: ")
+	}
+
+	fmt.Fprintf(w, "%v\n", ui.HumanDuration(totalDuration/time.Duration(len(result.Issues))))
+
+	return nil
 }

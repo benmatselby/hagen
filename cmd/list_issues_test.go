@@ -159,3 +159,93 @@ func TestTableIssueDisplayStrategy_HumanDates(t *testing.T) {
 		t.Fatalf("expected\n'%s'\ngot\n'%s'\n", expected, actual)
 	}
 }
+
+func TestMttmDisplayStrategyWithVerbosity(t *testing.T) {
+	created := github.Timestamp{Time: time.Date(2024, 5, 24, 10, 30, 0, 0, time.UTC)}
+	closed := github.Timestamp{Time: time.Date(2024, 5, 25, 13, 0, 0, 0, time.UTC)}
+	issues := []*github.Issue{
+		{
+			URL:       github.Ptr("https://api.github.com/repos/foo/bar/issues/1"),
+			Number:    github.Ptr(1),
+			Title:     github.Ptr("Test Issue 1"),
+			Labels:    []*github.Label{{Name: github.Ptr("bug")}},
+			CreatedAt: &created,
+			State:     github.Ptr("open"),
+			ClosedAt:  &closed,
+		},
+		{
+			URL:              github.Ptr("https://api.github.com/repos/foo/bar/issues/2"),
+			Number:           github.Ptr(2),
+			Title:            github.Ptr("Test PR 2"),
+			Labels:           []*github.Label{},
+			CreatedAt:        &created,
+			State:            github.Ptr("closed"),
+			ClosedAt:         &closed,
+			PullRequestLinks: &github.PullRequestLinks{}, // Mark as PR
+		},
+	}
+	result := &github.IssuesSearchResult{Issues: issues}
+	opts := cmd.ListIssuesOptions{DisplayLabels: true, Verbose: true}
+	var b bytes.Buffer
+	writer := bufio.NewWriter(&b)
+	strategy := cmd.MttmDisplayStrategy{}
+	err := strategy.Display(result, opts, writer)
+	writer.Flush()
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	expected := `┌────────────┬────────┬──────────────┬────────────────────┐
+│ REPOSITORY │ NUMBER │    TITLE     │ MEAN TIME TO MERGE │
+├────────────┼────────┼──────────────┼────────────────────┤
+│ foo/bar    │ 1      │ Test Issue 1 │ 1d 2h 30m          │
+│ foo/bar    │ 2      │ Test PR 2    │ 1d 2h 30m          │
+└────────────┴────────┴──────────────┴────────────────────┘
+Mean time to merge: 1d 2h 30m
+`
+	actual := b.String()
+	if actual != expected {
+		t.Fatalf("expected\n'%s'\ngot\n'%s'\n", expected, actual)
+	}
+}
+
+func TestMttmDisplayStrategy(t *testing.T) {
+	created := github.Timestamp{Time: time.Date(2024, 5, 24, 10, 30, 0, 0, time.UTC)}
+	closed := github.Timestamp{Time: time.Date(2024, 5, 25, 13, 0, 0, 0, time.UTC)}
+	issues := []*github.Issue{
+		{
+			URL:       github.Ptr("https://api.github.com/repos/foo/bar/issues/1"),
+			Number:    github.Ptr(1),
+			Title:     github.Ptr("Test Issue 1"),
+			Labels:    []*github.Label{{Name: github.Ptr("bug")}},
+			CreatedAt: &created,
+			State:     github.Ptr("open"),
+			ClosedAt:  &closed,
+		},
+		{
+			URL:              github.Ptr("https://api.github.com/repos/foo/bar/issues/2"),
+			Number:           github.Ptr(2),
+			Title:            github.Ptr("Test PR 2"),
+			Labels:           []*github.Label{},
+			CreatedAt:        &created,
+			State:            github.Ptr("closed"),
+			ClosedAt:         &closed,
+			PullRequestLinks: &github.PullRequestLinks{}, // Mark as PR
+		},
+	}
+	result := &github.IssuesSearchResult{Issues: issues}
+	opts := cmd.ListIssuesOptions{DisplayLabels: true}
+	var b bytes.Buffer
+	writer := bufio.NewWriter(&b)
+	strategy := cmd.MttmDisplayStrategy{}
+	err := strategy.Display(result, opts, writer)
+	writer.Flush()
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	expected := `1d 2h 30m
+`
+	actual := b.String()
+	if actual != expected {
+		t.Fatalf("expected\n'%s'\ngot\n'%s'\n", expected, actual)
+	}
+}
