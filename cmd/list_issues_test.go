@@ -56,7 +56,7 @@ func TestDefaultIssueDisplayStrategy(t *testing.T) {
 	opts := cmd.ListIssuesOptions{DisplayLabels: true}
 	var buf bytes.Buffer
 	strategy := cmd.DefaultIssueDisplayStrategy{}
-	err := strategy.Display(result, opts, &buf)
+	err := strategy.Display(result.Issues, opts, &buf)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -95,7 +95,7 @@ func TestTableIssueDisplayStrategy(t *testing.T) {
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
 	strategy := cmd.TableIssueDisplayStrategy{}
-	err := strategy.Display(result, opts, writer)
+	err := strategy.Display(result.Issues, opts, writer)
 	writer.Flush()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -142,7 +142,7 @@ func TestTableIssueDisplayStrategy_HumanDates(t *testing.T) {
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
 	strategy := cmd.TableIssueDisplayStrategy{}
-	err := strategy.Display(result, opts, writer)
+	err := strategy.Display(result.Issues, opts, writer)
 	writer.Flush()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -189,7 +189,7 @@ func TestMttmDisplayStrategyWithVerbosity(t *testing.T) {
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
 	strategy := cmd.MttmDisplayStrategy{}
-	err := strategy.Display(result, opts, writer)
+	err := strategy.Display(result.Issues, opts, writer)
 	writer.Flush()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -237,7 +237,7 @@ func TestMttmDisplayStrategy(t *testing.T) {
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
 	strategy := cmd.MttmDisplayStrategy{}
-	err := strategy.Display(result, opts, writer)
+	err := strategy.Display(result.Issues, opts, writer)
 	writer.Flush()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)

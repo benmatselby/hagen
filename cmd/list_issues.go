@@ -68,6 +68,8 @@ $ hagen issues list --query "author:yourusername is:pr is:merged" --display mttm
 			more := true
 			query := ""
 			received := 0
+			var issues []*github.Issue = nil
+
 			for page := 1; more; page++ {
 				query, searchOpts := NewSearchFromIssueOptions(opts)
 				searchOpts.Page = page
@@ -76,22 +78,7 @@ $ hagen issues list --query "author:yourusername is:pr is:merged" --display mttm
 					return err
 				}
 
-				// Select strategy
-				var strategy IssueDisplayStrategy
-				switch opts.DisplayStrategy {
-				case "table":
-					strategy = TableIssueDisplayStrategy{}
-				case "mttm":
-					strategy = MttmDisplayStrategy{}
-				default:
-					strategy = DefaultIssueDisplayStrategy{}
-				}
-
-				err = strategy.Display(result, opts, os.Stdout)
-				if err != nil {
-					return err
-				}
-
+				issues = append(issues, result.Issues...)
 				received += len(result.Issues)
 				more = received < result.GetTotal()
 
@@ -101,6 +88,21 @@ $ hagen issues list --query "author:yourusername is:pr is:merged" --display mttm
 				}
 			}
 
+			// Select strategy
+			var strategy IssueDisplayStrategy
+			switch opts.DisplayStrategy {
+			case "table":
+				strategy = TableIssueDisplayStrategy{}
+			case "mttm":
+				strategy = MttmDisplayStrategy{}
+			default:
+				strategy = DefaultIssueDisplayStrategy{}
+			}
+
+			err := strategy.Display(issues, opts, os.Stdout)
+			if err != nil {
+				return err
+			}
 			if opts.Verbose {
 				fmt.Fprintf(os.Stdout, "\n\nQuery used: %s\n", query)
 			}
@@ -150,15 +152,15 @@ func NewSearchFromIssueOptions(opts ListIssuesOptions) (string, github.SearchOpt
 // IssueDisplayStrategy defines the interface for displaying issues
 // You can add more strategies by implementing this interface
 type IssueDisplayStrategy interface {
-	Display(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error
+	Display(issues []*github.Issue, opts ListIssuesOptions, w io.Writer) error
 }
 
 // DefaultIssueDisplayStrategy implements the default display logic
 // (current behaviour)
 type DefaultIssueDisplayStrategy struct{}
 
-func (s DefaultIssueDisplayStrategy) Display(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error {
-	for _, issue := range result.Issues {
+func (s DefaultIssueDisplayStrategy) Display(issues []*github.Issue, opts ListIssuesOptions, w io.Writer) error {
+	for _, issue := range issues {
 		repo := ""
 		parts := strings.Split(issue.GetURL(), "/")
 		if len(parts) > 5 {
@@ -184,11 +186,11 @@ func (s DefaultIssueDisplayStrategy) Display(result *github.IssuesSearchResult, 
 // TableIssueDisplayStrategy implements table display logic
 type TableIssueDisplayStrategy struct{}
 
-func (s TableIssueDisplayStrategy) Display(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error {
+func (s TableIssueDisplayStrategy) Display(issues []*github.Issue, opts ListIssuesOptions, w io.Writer) error {
 	table := tablewriter.NewWriter(w)
 	table.Header([]string{"Type", "Repository", "Number", "Title", "Labels", "Status", "Created At", "Closed At"})
 
-	for _, issue := range result.Issues {
+	for _, issue := range issues {
 		repo := ""
 		parts := strings.Split(issue.GetURL(), "/")
 		if len(parts) > 5 {
@@ -239,12 +241,12 @@ func (s TableIssueDisplayStrategy) Display(result *github.IssuesSearchResult, op
 // MttmDisplayStrategy implements mean time to merge display logic
 type MttmDisplayStrategy struct{}
 
-func (s MttmDisplayStrategy) Display(result *github.IssuesSearchResult, opts ListIssuesOptions, w io.Writer) error {
+func (s MttmDisplayStrategy) Display(issues []*github.Issue, opts ListIssuesOptions, w io.Writer) error {
 	table := tablewriter.NewWriter(w)
 	table.Header([]string{"Repository", "Number", "Title", "Mean time to Merge"})
 
 	totalDuration := time.Duration(0)
-	for _, issue := range result.Issues {
+	for _, issue := range issues {
 		repo := ""
 
 		parts := strings.Split(issue.GetURL(), "/")
@@ -268,7 +270,7 @@ func (s MttmDisplayStrategy) Display(result *github.IssuesSearchResult, opts Lis
 		fmt.Fprintf(w, "Mean time to merge: ")
 	}
 
-	fmt.Fprintf(w, "%v\n", ui.HumanDuration(totalDuration/time.Duration(len(result.Issues))))
+	fmt.Fprintf(w, "%v\n", ui.HumanDuration(totalDuration/time.Duration(len(issues))))
 
 	return nil
 }
