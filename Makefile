@@ -77,7 +77,7 @@ test-cov: test ## Run the unit tests with coverage
 	go tool cover -html=coverage.out
 
 .PHONY: all ## Run everything
-all: clean install vet build test
+all: clean install lint build test
 
 .PHONY: static-all ## Run everything
 static-all: clean install static test
