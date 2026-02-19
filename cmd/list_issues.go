@@ -178,7 +178,7 @@ func (s DefaultIssueDisplayStrategy) Display(issues []*github.Issue, opts ListIs
 			}
 			labels += ")"
 		}
-		fmt.Fprintf(w, "- %s#%v %s%s\n", repo, issue.GetNumber(), issue.GetTitle(), labels)
+		fmt.Fprintf(w, "- %s#%v %s%s\n", repo, issue.GetNumber(), issue.GetTitle(), labels) // #nosec G705 -- CLI output, not web content
 	}
 	return nil
 }
@@ -270,7 +270,7 @@ func (s MttmDisplayStrategy) Display(issues []*github.Issue, opts ListIssuesOpti
 		fmt.Fprintf(w, "Mean time to merge: ")
 	}
 
-	fmt.Fprintf(w, "%v\n", ui.HumanDuration(totalDuration/time.Duration(len(issues))))
+	fmt.Fprintf(w, "%v\n", ui.HumanDuration(totalDuration/time.Duration(len(issues)))) // #nosec G705 -- CLI output, not web content
 
 	return nil
 }
