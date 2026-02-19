@@ -2,6 +2,8 @@
 
 ## Release-next
 
+- Bump Go version to 1.26
+
 ## 3.14.0
 
 - Bump golang base image to 1.25.0-alpine
