@@ -167,18 +167,18 @@ func (s DefaultIssueDisplayStrategy) Display(issues []*github.Issue, opts ListIs
 			repo = fmt.Sprintf("%s/%s - ", parts[4], parts[5])
 		}
 
-		labels := ""
+		var labels strings.Builder
 		if opts.DisplayLabels && len(issue.Labels) > 0 {
-			labels += " ("
+			labels.WriteString(" (")
 			for index, label := range issue.Labels {
-				labels += label.GetName()
+				labels.WriteString(label.GetName())
 				if index < len(issue.Labels)-1 {
-					labels += ", "
+					labels.WriteString(", ")
 				}
 			}
-			labels += ")"
+			labels.WriteString(")")
 		}
-		fmt.Fprintf(w, "- %s#%v %s%s\n", repo, issue.GetNumber(), issue.GetTitle(), labels) // #nosec G705 -- CLI output, not web content
+		fmt.Fprintf(w, "- %s#%v %s%s\n", repo, issue.GetNumber(), issue.GetTitle(), labels.String()) // #nosec G705 -- CLI output, not web content
 	}
 	return nil
 }
@@ -196,12 +196,12 @@ func (s TableIssueDisplayStrategy) Display(issues []*github.Issue, opts ListIssu
 		if len(parts) > 5 {
 			repo = fmt.Sprintf("%s/%s", parts[4], parts[5])
 		}
-		labels := ""
+		var labels strings.Builder
 		if opts.DisplayLabels && len(issue.Labels) > 0 {
 			for index, label := range issue.Labels {
-				labels += label.GetName()
+				labels.WriteString(label.GetName())
 				if index < len(issue.Labels)-1 {
-					labels += ", "
+					labels.WriteString(", ")
 				}
 			}
 		}
@@ -229,7 +229,7 @@ func (s TableIssueDisplayStrategy) Display(issues []*github.Issue, opts ListIssu
 				closedAt = issue.ClosedAt.Format(ui.DateFormat)
 			}
 		}
-		row := []string{typeStr, repo, fmt.Sprintf("%v", issue.GetNumber()), issue.GetTitle(), labels, status, createdAt, closedAt}
+		row := []string{typeStr, repo, fmt.Sprintf("%v", issue.GetNumber()), issue.GetTitle(), labels.String(), status, createdAt, closedAt}
 		err := table.Append(row)
 		if err != nil {
 			return err

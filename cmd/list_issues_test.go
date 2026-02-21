@@ -40,15 +40,15 @@ func TestNewListCommand(t *testing.T) {
 func TestDefaultIssueDisplayStrategy(t *testing.T) {
 	issues := []*github.Issue{
 		{
-			URL:    github.Ptr("https://api.github.com/repos/foo/bar/issues/1"),
-			Number: github.Ptr(1),
-			Title:  github.Ptr("Test Issue 1"),
-			Labels: []*github.Label{{Name: github.Ptr("bug")}},
+			URL:    new("https://api.github.com/repos/foo/bar/issues/1"),
+			Number: new(1),
+			Title:  new("Test Issue 1"),
+			Labels: []*github.Label{{Name: new("bug")}},
 		},
 		{
-			URL:    github.Ptr("https://api.github.com/repos/foo/bar/issues/2"),
-			Number: github.Ptr(2),
-			Title:  github.Ptr("Test Issue 2"),
+			URL:    new("https://api.github.com/repos/foo/bar/issues/2"),
+			Number: new(2),
+			Title:  new("Test Issue 2"),
 			Labels: []*github.Label{},
 		},
 	}
@@ -71,21 +71,21 @@ func TestTableIssueDisplayStrategy(t *testing.T) {
 	closed := github.Timestamp{Time: time.Date(2024, 5, 25, 11, 0, 0, 0, time.UTC)}
 	issues := []*github.Issue{
 		{
-			URL:       github.Ptr("https://api.github.com/repos/foo/bar/issues/1"),
-			Number:    github.Ptr(1),
-			Title:     github.Ptr("Test Issue 1"),
-			Labels:    []*github.Label{{Name: github.Ptr("bug")}},
+			URL:       new("https://api.github.com/repos/foo/bar/issues/1"),
+			Number:    new(1),
+			Title:     new("Test Issue 1"),
+			Labels:    []*github.Label{{Name: new("bug")}},
 			CreatedAt: &created,
-			State:     github.Ptr("open"),
+			State:     new("open"),
 			ClosedAt:  &closed,
 		},
 		{
-			URL:              github.Ptr("https://api.github.com/repos/foo/bar/issues/2"),
-			Number:           github.Ptr(2),
-			Title:            github.Ptr("Test PR 2"),
+			URL:              new("https://api.github.com/repos/foo/bar/issues/2"),
+			Number:           new(2),
+			Title:            new("Test PR 2"),
 			Labels:           []*github.Label{},
 			CreatedAt:        &created,
-			State:            github.Ptr("closed"),
+			State:            new("closed"),
 			ClosedAt:         &closed,
 			PullRequestLinks: &github.PullRequestLinks{}, // Mark as PR
 		},
@@ -118,21 +118,21 @@ func TestTableIssueDisplayStrategy_HumanDates(t *testing.T) {
 	closed := github.Timestamp{Time: time.Date(2025, 3, 10, 14, 0, 0, 0, time.UTC)}
 	issues := []*github.Issue{
 		{
-			URL:       github.Ptr("https://api.github.com/repos/foo/bar/issues/1"),
-			Number:    github.Ptr(1),
-			Title:     github.Ptr("Test Issue 1"),
-			Labels:    []*github.Label{{Name: github.Ptr("bug")}},
+			URL:       new("https://api.github.com/repos/foo/bar/issues/1"),
+			Number:    new(1),
+			Title:     new("Test Issue 1"),
+			Labels:    []*github.Label{{Name: new("bug")}},
 			CreatedAt: &created,
-			State:     github.Ptr("open"),
+			State:     new("open"),
 			ClosedAt:  &closed,
 		},
 		{
-			URL:              github.Ptr("https://api.github.com/repos/foo/bar/issues/2"),
-			Number:           github.Ptr(2),
-			Title:            github.Ptr("Test PR 2"),
+			URL:              new("https://api.github.com/repos/foo/bar/issues/2"),
+			Number:           new(2),
+			Title:            new("Test PR 2"),
 			Labels:           []*github.Label{},
 			CreatedAt:        &created,
-			State:            github.Ptr("closed"),
+			State:            new("closed"),
 			ClosedAt:         &closed,
 			PullRequestLinks: &github.PullRequestLinks{}, // Mark as PR
 		},
@@ -165,21 +165,21 @@ func TestMttmDisplayStrategyWithVerbosity(t *testing.T) {
 	closed := github.Timestamp{Time: time.Date(2024, 5, 25, 13, 0, 0, 0, time.UTC)}
 	issues := []*github.Issue{
 		{
-			URL:       github.Ptr("https://api.github.com/repos/foo/bar/issues/1"),
-			Number:    github.Ptr(1),
-			Title:     github.Ptr("Test Issue 1"),
-			Labels:    []*github.Label{{Name: github.Ptr("bug")}},
+			URL:       new("https://api.github.com/repos/foo/bar/issues/1"),
+			Number:    new(1),
+			Title:     new("Test Issue 1"),
+			Labels:    []*github.Label{{Name: new("bug")}},
 			CreatedAt: &created,
-			State:     github.Ptr("open"),
+			State:     new("open"),
 			ClosedAt:  &closed,
 		},
 		{
-			URL:              github.Ptr("https://api.github.com/repos/foo/bar/issues/2"),
-			Number:           github.Ptr(2),
-			Title:            github.Ptr("Test PR 2"),
+			URL:              new("https://api.github.com/repos/foo/bar/issues/2"),
+			Number:           new(2),
+			Title:            new("Test PR 2"),
 			Labels:           []*github.Label{},
 			CreatedAt:        &created,
-			State:            github.Ptr("closed"),
+			State:            new("closed"),
 			ClosedAt:         &closed,
 			PullRequestLinks: &github.PullRequestLinks{}, // Mark as PR
 		},
@@ -213,21 +213,21 @@ func TestMttmDisplayStrategy(t *testing.T) {
 	closed := github.Timestamp{Time: time.Date(2024, 5, 25, 13, 0, 0, 0, time.UTC)}
 	issues := []*github.Issue{
 		{
-			URL:       github.Ptr("https://api.github.com/repos/foo/bar/issues/1"),
-			Number:    github.Ptr(1),
-			Title:     github.Ptr("Test Issue 1"),
-			Labels:    []*github.Label{{Name: github.Ptr("bug")}},
+			URL:       new("https://api.github.com/repos/foo/bar/issues/1"),
+			Number:    new(1),
+			Title:     new("Test Issue 1"),
+			Labels:    []*github.Label{{Name: new("bug")}},
 			CreatedAt: &created,
-			State:     github.Ptr("open"),
+			State:     new("open"),
 			ClosedAt:  &closed,
 		},
 		{
-			URL:              github.Ptr("https://api.github.com/repos/foo/bar/issues/2"),
-			Number:           github.Ptr(2),
-			Title:            github.Ptr("Test PR 2"),
+			URL:              new("https://api.github.com/repos/foo/bar/issues/2"),
+			Number:           new(2),
+			Title:            new("Test PR 2"),
 			Labels:           []*github.Label{},
 			CreatedAt:        &created,
-			State:            github.Ptr("closed"),
+			State:            new("closed"),
 			ClosedAt:         &closed,
 			PullRequestLinks: &github.PullRequestLinks{}, // Mark as PR
 		},
