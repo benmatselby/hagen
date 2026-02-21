@@ -31,10 +31,10 @@ func NewListTemplatesCommand() *cobra.Command {
 			sort.Strings(names)
 
 			// Extract all template details once for efficiency
-			templateDetails := make(map[string]map[string]interface{}, len(names))
+			templateDetails := make(map[string]map[string]any, len(names))
 			if verbose {
 				for _, name := range names {
-					if tmpl, ok := templates[name].(map[string]interface{}); ok {
+					if tmpl, ok := templates[name].(map[string]any); ok {
 						templateDetails[name] = tmpl
 					} else {
 						templateDetails[name] = viper.GetStringMap(fmt.Sprintf("templates.%s", name))

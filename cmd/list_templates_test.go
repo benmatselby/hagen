@@ -9,7 +9,7 @@ import (
 )
 
 func TestTemplatesCommand_NoTemplates(t *testing.T) {
-	viper.Set("templates", map[string]interface{}{})
+	viper.Set("templates", map[string]any{})
 	buf := new(bytes.Buffer)
 	cmd := cmd.NewListTemplatesCommand()
 	cmd.SetOut(buf)
@@ -25,9 +25,9 @@ func TestTemplatesCommand_NoTemplates(t *testing.T) {
 }
 
 func TestTemplatesCommand_ListNames(t *testing.T) {
-	templates := map[string]interface{}{
-		"foo": map[string]interface{}{"query": "bar"},
-		"baz": map[string]interface{}{"query": "qux"},
+	templates := map[string]any{
+		"foo": map[string]any{"query": "bar"},
+		"baz": map[string]any{"query": "qux"},
 	}
 	viper.Set("templates", templates)
 	buf := new(bytes.Buffer)
@@ -45,9 +45,9 @@ func TestTemplatesCommand_ListNames(t *testing.T) {
 }
 
 func TestTemplatesCommand_Verbose(t *testing.T) {
-	templates := map[string]interface{}{
-		"foo": map[string]interface{}{"query": "bar"},
-		"baz": map[string]interface{}{"query": "qux"},
+	templates := map[string]any{
+		"foo": map[string]any{"query": "bar"},
+		"baz": map[string]any{"query": "qux"},
 	}
 	viper.Set("templates", templates)
 	buf := new(bytes.Buffer)
