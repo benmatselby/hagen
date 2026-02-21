@@ -1,6 +1,6 @@
 # Changelog
 
-## Release-next
+## 3.15.0
 
 - Bump Go version to 1.26
 
