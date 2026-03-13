@@ -104,10 +104,10 @@ func NewSearchFromRepoOptions(opts ListRepoOptions) (string, github.SearchOption
 	return query, searchOpts
 }
 
-// DisplayRepos will display issues based on the given search criteria
+// DisplayRepos will display repositories based on the given search criteria
 func DisplayRepos(result *github.RepositoriesSearchResult, w io.Writer) error {
 	for _, repo := range result.Repositories {
-		fmt.Println(repo.GetFullName())
+		fmt.Fprintln(w, repo.GetFullName())
 	}
 
 	return nil
