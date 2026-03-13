@@ -242,6 +242,10 @@ func (s TableIssueDisplayStrategy) Display(issues []*github.Issue, opts ListIssu
 type MttmDisplayStrategy struct{}
 
 func (s MttmDisplayStrategy) Display(issues []*github.Issue, opts ListIssuesOptions, w io.Writer) error {
+	if len(issues) == 0 {
+		return fmt.Errorf("no issues to calculate mean time to merge")
+	}
+
 	table := tablewriter.NewWriter(w)
 	table.Header([]string{"Repository", "Number", "Title", "Mean time to Merge"})
 

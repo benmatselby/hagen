@@ -249,3 +249,18 @@ func TestMttmDisplayStrategy(t *testing.T) {
 		t.Fatalf("expected\n'%s'\ngot\n'%s'\n", expected, actual)
 	}
 }
+
+func TestMttmDisplayStrategy_EmptyIssues(t *testing.T) {
+	var issues []*github.Issue
+	opts := cmd.ListIssuesOptions{}
+	var b bytes.Buffer
+	strategy := cmd.MttmDisplayStrategy{}
+	err := strategy.Display(issues, opts, &b)
+	if err == nil {
+		t.Fatal("expected error for empty issues, got nil")
+	}
+	expected := "no issues to calculate mean time to merge"
+	if err.Error() != expected {
+		t.Fatalf("expected error %q, got %q", expected, err.Error())
+	}
+}
