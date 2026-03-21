@@ -28,7 +28,7 @@ Use "hagen [command] --help" for more information about a command.
 
 ## Requirements
 
-- [Go version 1.24+](https://golang.org/dl/)
+- [Mise](https://mise.jdx.dev) to install Go (mise install), or ignore if you already have Go 1.26x.
 - You will need require a [PAT from GitHub](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line).
 
 ## Configuration
